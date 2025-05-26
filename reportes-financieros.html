@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Cobro a clientes</title>
+    <link rel="icon" href="img/2A_constructora_logo.png">
+
+    <!-- Estilos -->
+    <link href="menu/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/usuario-styles.css">
+
+    <!-- Frameworks -->
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="bt-icons/bootstrap-icons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="dt/datatables.min.css">
+    <link rel="stylesheet" href="dt/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="dt/buttons.dataTables.min.css">
+    <!-- AlertifyJS -->
+    <link rel="stylesheet" href="alert/alertify.min.css">
+    <link rel="stylesheet" href="alert/themes/default.min.css">
+    <script src="alert/alertify.min.js"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Barra de navegación superior -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="menu.html" onclick="cargarPagina('menu')">
+            <img src="img/2A_constructora_logo.png" alt="Logo" height="30" class="me-2">
+            2A Constructora
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i
+                class="bi bi-list"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <div class="me-3">
+            <button id="darkModeToggle" class="btn btn-link text-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="configuracion.html">Configuración</a></li>
+                    <li><a class="dropdown-item" href="#">Actividad</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Estructura del layout con menú lateral -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div id="principal" class="sb-sidenav-menu-heading">Principal</div>
+                        <a id="dashboard" class="nav-link" href="dashboard.html" onclick="cargarPagina('menu')">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div id="modulos" class="sb-sidenav-menu-heading">Módulos</div>
+
+                        <!-- Finanzas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFinanzas">
+                            <div class="sb-nav-link-icon"><i class="bi bi-currency-dollar"></i></div>
+                            Finanzas
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFinanzas" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="facturas-proveedores" class="nav-link collapsed" href="#"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseProveedores">
+                                    Facturas de Proveedores
+                                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseProveedores" data-bs-parent="#collapseFinanzas">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a href="facturas-proveedores.html" class="nav-link">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Registrar Compras
+                                        </a>
+                                        <a href="" class="nav-link">
+                                            <i class="bi bi-tools me-2"></i>Mantenimiento de Facturas
+                                        </a>
+                                    </nav>
+                                </div>
+
+                                <a id="facturas-clientes" class="nav-link" href="facturas-clientes.html"
+                                    onclick="cargarPagina('facturas-clientes')">Facturas de Clientes</a>
+                                <a id="pagos-proveedores" class="nav-link" href="pagos-proveedores.html"
+                                    onclick="cargarPagina('pagos-proveedores')">Pagos a Proveedores</a>
+                                <a id="cobros-clientes" class="nav-link" href="cobros-clientes.html">Cobros de
+                                    Clientes</a>
+                                <a id="adelantos-anticipos" class="nav-link" href="adelantos-anticipos.html"
+                                    onclick="cargarPagina('adelantos-anticipos')">Adelantos y Anticipos</a>
+                                <a id="costos-obra" class="nav-link" href="costos-obra.html"
+                                    onclick="cargarPagina('costos-obra')">Costos por Obra</a>
+                                <a id="reportes-financieros" class="nav-link" href="reportes-financieros.html"
+                                    onclick="cargarPagina('reportes-financieros')">Reportes Financieros</a>
+                            </nav>
+                        </div>
+
+                        <!-- Obras -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseObras">
+                            <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                            Obras
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseObras" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="mantenimiento-obras" class="nav-link" href="matenimiento-obras.html"
+                                    onclick="cargarPagina('mantenimiento-obras')">Mantenimiento de Obras</a>
+                                <a id="asignar-materiales" class="nav-link" href="asignar-materiales.html"
+                                    onclick="cargarPagina('asignar-materiales')">Asignar Materiales</a>
+                                <a id="control-existencias" class="nav-link" href="control-existencias.html"
+                                    onclick="cargarPagina('control-existencias')">Control de Existencias</a>
+                                <a id="movimientos-materiales" class="nav-link" href="movimientos-materiales.html"
+                                    onclick="cargarPagina('movimientos-materiales')">Movimientos de Materiales</a>
+                                <a id="traslados-materiales" class="nav-link" href="traslado-materiales.html"
+                                    onclick="cargarPagina('traslados-materiales')">Traslados de Materiales</a>
+                                <a id="registro-perdidas" class="nav-link" href="registro-perdidas.html"
+                                    onclick="cargarPagina('registro-perdidas')">Registro de Pérdidas</a>
+                            </nav>
+                        </div>
+
+                        <div id="administracion" class="sb-sidenav-menu-heading">Administración</div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMantenimiento">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            Mantenimiento
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseMantenimiento" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="usuarios" class="nav-link" href="usuarios.html"
+                                    onclick="cargarPagina('usuarios')">Usuarios</a>
+                                <a id="clientes" class="nav-link" href="clientes.html"
+                                    onclick="cargarPagina('clientes')">Clientes</a>
+                                <a id="proveedores" class="nav-link" href="proveedores.html"
+                                    onclick="cargarPagina('proveedores')">Proveedores</a>
+                                <a id="materiales" class="nav-link" href="materiales.html"
+                                    onclick="cargarPagina('materiales')">Materiales</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado por:</div>
+                    <div id="nomUsuario"></div>
+                    <div class="small">Rol:</div>
+                    <div id="rol"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <style>
+                    :root {
+                        --primary-color: #3498db;
+                        --secondary-color: #2ecc71;
+                        --danger-color: #e74c3c;
+                        --warning-color: #f39c12;
+                        --info-color: #1abc9c;
+                        --dark-color: #34495e;
+                        --light-color: #f8f9fa;
+                        --gray-color: #95a5a6;
+                    }
+
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    }
+
+                    body {
+                        background-color: white;
+                        color: #333;
+                        line-height: 1.6;
+                    }
+
+                    .report-container {
+                        max-width: 1200px;
+                        margin: 0 auto;
+                        padding: 30px;
+                        background-color: white;
+                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .report-header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                        padding-bottom: 20px;
+                        border-bottom: 1px solid #eee;
+                    }
+
+                    .report-title {
+                        font-size: 28px;
+                        color: var(--dark-color);
+                        margin-bottom: 10px;
+                    }
+
+                    .report-subtitle {
+                        font-size: 18px;
+                        color: var(--gray-color);
+                        font-weight: normal;
+                    }
+
+                    .report-period {
+                        font-size: 16px;
+                        color: var(--primary-color);
+                        margin-top: 10px;
+                        font-weight: bold;
+                    }
+
+                    .section {
+                        margin-bottom: 40px;
+                    }
+
+                    .section-title {
+                        font-size: 20px;
+                        color: var(--dark-color);
+                        margin-bottom: 20px;
+                        padding-bottom: 10px;
+                        border-bottom: 1px solid #eee;
+                    }
+
+                    .metrics-grid {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 20px;
+                        margin-bottom: 30px;
+                    }
+
+                    .metric-card {
+                        background-color: var(--light-color);
+                        border-radius: 8px;
+                        padding: 20px;
+                        text-align: center;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .metric-value {
+                        font-size: 32px;
+                        font-weight: bold;
+                        margin: 10px 0;
+                    }
+
+                    .metric-value.gross {
+                        color: var(--secondary-color);
+                    }
+
+                    .metric-value.operating {
+                        color: var(--primary-color);
+                    }
+
+                    .metric-value.net {
+                        color: var(--warning-color);
+                    }
+
+                    .metric-label {
+                        font-size: 14px;
+                        color: var(--gray-color);
+                    }
+
+                    .cash-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 30px;
+                        margin-bottom: 30px;
+                    }
+
+                    .cash-card {
+                        background-color: var(--light-color);
+                        border-radius: 8px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .cash-title {
+                        font-size: 18px;
+                        margin-bottom: 15px;
+                        color: var(--dark-color);
+                    }
+
+                    .cash-amount {
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin: 10px 0;
+                    }
+
+                    .cash-details {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-top: 20px;
+                    }
+
+                    .cash-in-out {
+                        text-align: center;
+                    }
+
+                    .cash-in-out span {
+                        display: block;
+                        font-size: 14px;
+                        color: var(--gray-color);
+                    }
+
+                    .cash-in-out .amount {
+                        font-size: 18px;
+                        font-weight: bold;
+                        margin-top: 5px;
+                    }
+
+                    .cash-in {
+                        color: var(--secondary-color);
+                    }
+
+                    .cash-out {
+                        color: var(--danger-color);
+                    }
+
+                    .chart-container {
+                        background-color: var(--light-color);
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin-bottom: 30px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .chart-title {
+                        font-size: 18px;
+                        margin-bottom: 20px;
+                        color: var(--dark-color);
+                    }
+
+                    .table-container {
+                        background-color: var(--light-color);
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin-bottom: 30px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                        overflow-x: auto;
+                    }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+
+                    th,
+                    td {
+                        padding: 12px 15px;
+                        text-align: left;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    th {
+                        background-color: #f1f1f1;
+                        font-weight: 600;
+                        color: var(--dark-color);
+                    }
+
+                    tr:hover {
+                        background-color: #f5f5f5;
+                    }
+
+                    .forecast-container {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 30px;
+                    }
+
+                    .forecast-card {
+                        background-color: var(--light-color);
+                        border-radius: 8px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .forecast-title {
+                        font-size: 18px;
+                        margin-bottom: 15px;
+                        color: var(--dark-color);
+                    }
+
+                    .forecast-value {
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin: 10px 0;
+                    }
+
+                    .breakdown-item {
+                        display: flex;
+                        justify-content: space-between;
+                        margin-bottom: 10px;
+                        padding-bottom: 10px;
+                        border-bottom: 1px dashed #ddd;
+                    }
+
+                    .breakdown-label {
+                        font-weight: 600;
+                    }
+
+                    .breakdown-value {
+                        font-weight: bold;
+                    }
+
+                    @media (max-width: 768px) {
+                        .metrics-grid {
+                            grid-template-columns: 1fr;
+                        }
+
+                        .cash-grid,
+                        .forecast-container {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+                </head>
+
+                <body>
+                    <div class="report-container">
+                        <div class="report-header">
+                            <h1 class="report-title">Informe Financiero Mensual</h1>
+                            <div class="report-period">Mayo 2025</div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Resumen de Rentabilidad</h2>
+
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-value gross">79%</div>
+                                    <div class="metric-label">Margen Bruto</div>
+                                </div>
+
+                                <div class="metric-card">
+                                    <div class="metric-value operating">12%</div>
+                                    <div class="metric-label">Margen Operativo</div>
+                                </div>
+
+                                <div class="metric-card">
+                                    <div class="metric-value net">10%</div>
+                                    <div class="metric-label">Margen Neto</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Posición de Efectivo</h2>
+
+                            <div class="cash-grid">
+                                <div class="cash-card">
+                                    <h3 class="cash-title">Saldo de Efectivo</h3>
+                                    <div class="cash-amount">Gs. 1,250,880,000</div>
+
+                                    <div class="cash-details">
+                                        <div class="cash-in-out">
+                                            <span>Entradas</span>
+                                            <div class="amount cash-in">Gs. 850,000,000</div>
+                                        </div>
+                                        <div class="cash-in-out">
+                                            <span>Salidas</span>
+                                            <div class="amount cash-out">Gs. 650,000,000</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cash-card">
+                                    <h3 class="cash-title">Efectivo al Final del Mes</h3>
+                                    <canvas id="cashFlowChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Desglose de Ingresos</h2>
+
+                            <div class="chart-container">
+                                <h3 class="chart-title">Ingresos por Tipo de Obra</h3>
+                                <canvas id="revenueChart"></canvas>
+                            </div>
+
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Proyecto</th>
+                                            <th>Cliente</th>
+                                            <th>Ingresos</th>
+                                            <th>% del Total</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Refacción Monumento al Indio</td>
+                                            <td>Municipalidad de Concepción</td>
+                                            <td>Gs. 750,000,000</td>
+                                            <td>60%</td>
+                                            <td>En progreso</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Drenaje Ciudad de Concepción</td>
+                                            <td>Municipalidad de Concepción</td>
+                                            <td>Gs. 500,000,000</td>
+                                            <td>40%</td>
+                                            <td>En progreso</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Gastos Operativos (OPEX)</h2>
+
+                            <div class="chart-container">
+                                <h3 class="chart-title">Gastos Mensuales vs Acumulado</h3>
+                                <canvas id="opexChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Pronóstico y Análisis</h2>
+
+                            <div class="forecast-container">
+                                <div class="forecast-card">
+                                    <h3 class="forecast-title">Pronóstico de Ingresos</h3>
+                                    <canvas id="forecastChart"></canvas>
+                                </div>
+
+                                <div class="forecast-card">
+                                    <h3 class="forecast-title">Análisis de Costos</h3>
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Costo de Materiales</span>
+                                        <span class="breakdown-value">Gs. 450,000,000</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Mano de Obra</span>
+                                        <span class="breakdown-value">Gs. 300,000,000</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Gastos Generales</span>
+                                        <span class="breakdown-value">Gs. 150,000,000</span>
+                                    </div>
+                                    <div class="breakdown-item">
+                                        <span class="breakdown-label">Utilidad Bruta</span>
+                                        <span class="breakdown-value">Gs. 350,000,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Datos para los gráficos
+                        const cashFlowData = {
+                            labels: ['Ene-25', 'Feb-25', 'Mar-25', 'Abr-25', 'May-25'],
+                            datasets: [{
+                                label: 'Efectivo Final de Mes',
+                                data: [800, 950, 1100, 1200, 1250],
+                                backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                                borderColor: 'rgba(52, 152, 219, 1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        };
+
+                        const revenueData = {
+                            labels: ['Obras Públicas', 'Privadas', 'Residenciales', 'Comerciales'],
+                            datasets: [{
+                                data: [1250, 450, 300, 200],
+                                backgroundColor: [
+                                    'rgba(46, 204, 113, 0.7)',
+                                    'rgba(52, 152, 219, 0.7)',
+                                    'rgba(241, 196, 15, 0.7)',
+                                    'rgba(155, 89, 182, 0.7)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        };
+
+                        const opexData = {
+                            labels: ['Materiales', 'Salarios', 'Logística', 'Administración', 'Otros'],
+                            datasets: [
+                                {
+                                    label: 'Mayo 2025',
+                                    data: [450, 300, 150, 100, 50],
+                                    backgroundColor: 'rgba(52, 152, 219, 0.7)'
+                                },
+                                {
+                                    label: 'Acumulado 2025',
+                                    data: [2200, 1500, 750, 500, 250],
+                                    backgroundColor: 'rgba(155, 89, 182, 0.7)'
+                                }
+                            ]
+                        };
+
+                        const forecastData = {
+                            labels: ['Jun-25', 'Jul-25', 'Ago-25', 'Sep-25', 'Oct-25'],
+                            datasets: [{
+                                label: 'Pronóstico de Ingresos',
+                                data: [1750, 1500, 1250, 1000, 750],
+                                backgroundColor: 'rgba(46, 204, 113, 0.2)',
+                                borderColor: 'rgba(46, 204, 113, 1)',
+                                borderWidth: 2,
+                                tension: 0.4,
+                                fill: true
+                            }]
+                        };
+
+                        // Configuración de los gráficos
+                        const cashFlowCtx = document.getElementById('cashFlowChart').getContext('2d');
+                        new Chart(cashFlowCtx, {
+                            type: 'line',
+                            data: cashFlowData,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `Gs. ${context.raw} millones`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: false,
+                                        ticks: {
+                                            callback: function (value) {
+                                                return `Gs. ${value}M`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                        new Chart(revenueCtx, {
+                            type: 'doughnut',
+                            data: revenueData,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `Gs. ${context.raw} millones (${Math.round(context.parsed * 100 / context.dataset.data.reduce((a, b) => a + b, 0))}%)`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        const opexCtx = document.getElementById('opexChart').getContext('2d');
+                        new Chart(opexCtx, {
+                            type: 'bar',
+                            data: opexData,
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    x: {
+                                        stacked: false,
+                                    },
+                                    y: {
+                                        stacked: false,
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function (value) {
+                                                return `Gs. ${value}M`;
+                                            }
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `${context.dataset.label}: Gs. ${context.raw} millones`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+                        new Chart(forecastCtx, {
+                            type: 'line',
+                            data: forecastData,
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `Pronóstico: Gs. ${context.raw} millones`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function (value) {
+                                                return `Gs. ${value}M`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    </script>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; 2A Constructora 2025</div>
+                        <div>
+                            <a href="#">Política de Privacidad</a>
+                            &middot;
+                            <a href="#">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/roleMenuAccess.js"></script>
+    <script src="js/funcionesSistema.js"></script>
+    <script src="menu/scripts.js"></script>
+    <script src="js/cerrarSesion.js"></script>
+    <script src="js/user-functions.js"></script>
+    <!-- Bootstrap -->
+    <script src="menu/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="dt/jquery-3.7.1.js"></script>
+    <script src="dt/datatables.min.js"></script>
+    <script src="dt/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="dt/dataTables.buttons.min.js"></script>
+    <script src="dt/buttons.print.min.js"></script>
+    <script src="dt/buttons.html5.min.js"></script>
+    <!-- DataTables JSZip y pdfmake para exportar -->
+    <script src="dt/jszip.min.js"></script>
+    <script src="dt/pdfmake.min.js"></script>
+    <script src="dt/vfs_fonts.js"></script>
+    <!-- DataTables Idioma Español -->
+    <script src="dt/es-ES.js"></script>
+
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (!currentUser) {
+            window.location.href = 'error.html';
+        }
+
+        // Control de seguridad del usuario actual
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verificar si el usuario está autenticado
+            if (!currentUser) {
+                alertify.error("Usuario no encontrado.");
+                setTimeout(() => {
+                    window.location.href = "error.html";
+                }, 2000);
+                return;
+            } else {
+                // Mostrar el nombre del usuario y rol en el menú
+                document.getElementById('nomUsuario').innerText = `${currentUser.nombre} ${currentUser.apellido}`;
+                document.getElementById("rol").textContent = formatearRol(currentUser.rol);
+            }
+
+            // Configurar tema oscuro
+            configurarTemaOscuro();
+        });
+
+        // Función para dark mode
+        function configurarTemaOscuro() {
+            // Verificar preferencia inicial
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+            }
+
+            // Toggle modo oscuro
+            document.getElementById('darkModeToggle').addEventListener('click', function () {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+                this.innerHTML = html.classList.contains('dark') ?
+                    '<i class="bi bi-sun"></i>' :
+                    '<i class="bi bi-moon-stars"></i>';
+            });
+
+            // Escuchar cambios en preferencias del sistema
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const html = document.documentElement;
+                if (e.matches) {
+                    html.classList.add('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+                } else {
+                    html.classList.remove('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-moon-stars"></i>';
+                }
+            });
+        }
+
+        // Formatear el nombre del rol para mostrar
+        function formatearRol(rol) {
+            switch (rol) {
+                case 'administrador': return 'Administrador';
+                case 'jefe_obra': return 'Jefe de Obra';
+                case 'gerente': return 'Gerente';
+                case 'obrero': return 'Obrero';
+                case 'contador': return 'Contador/Financiero';
+                case 'codificador': return 'Codificador';
+                default: return rol;
+            }
+        }
+
+        // Función para cargar páginas en el contenido principal
+        function cargarPagina(pagina) {
+            const contenedor = document.getElementById('contenidoPrincipal');
+            // Aquí se cargaría el contenido de la página mediante fetch o XMLHttpRequest
+            // Por ahora, solo mostramos un mensaje indicando qué página se cargaría
+            contenedor.innerHTML = `
+                    <h1 class="mt-4">${pagina.charAt(0).toUpperCase() + pagina.slice(1).replace('-', ' ')}</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>Contenido de la página ${pagina}...</p>
+                        </div>
+                    </div>
+                `;
+        }
+    </script>
+</body>
+
+</html>

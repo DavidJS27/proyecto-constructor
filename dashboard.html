@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Dashboard</title>
+    <link rel="icon" href="img/2A_constructora_logo.png">
+
+    <!-- Estilos -->
+    <link href="menu/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/usuario-styles.css">
+
+    <!-- Frameworks -->
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="bt-icons/bootstrap-icons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="dt/datatables.min.css">
+    <link rel="stylesheet" href="dt/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="dt/buttons.dataTables.min.css">
+    <!-- AlertifyJS -->
+    <link rel="stylesheet" href="alert/alertify.min.css">
+    <link rel="stylesheet" href="alert/themes/default.min.css">
+    <script src="alert/alertify.min.js"></script>
+    <script src="./js/bd.js"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Barra de navegación superior -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="menu.html" onclick="cargarPagina('menu')">
+            <img src="img/2A_constructora_logo.png" alt="Logo" height="30" class="me-2">
+            2A Constructora
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i
+                class="bi bi-list"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <div class="me-3">
+            <button id="darkModeToggle" class="btn btn-link text-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="configuracion.html">Configuración</a></li>
+                    <li><a class="dropdown-item" href="#">Actividad</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Estructura del layout con menú lateral -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div id="principal" class="sb-sidenav-menu-heading">Principal</div>
+                        <a id="dashboard" class="nav-link" href="dashboard.html" onclick="cargarPagina('menu')">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div id="modulos" class="sb-sidenav-menu-heading">Módulos</div>
+
+                        <!-- Finanzas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFinanzas">
+                            <div class="sb-nav-link-icon"><i class="bi bi-currency-dollar"></i></div>
+                            Finanzas
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFinanzas" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="facturas-proveedores" class="nav-link collapsed" href="#"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseProveedores">
+                                    Facturas de Proveedores
+                                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseProveedores" data-bs-parent="#collapseFinanzas">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a href="facturas-proveedores.html" class="nav-link">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Registrar Compras
+                                        </a>
+                                        <a href="" class="nav-link">
+                                            <i class="bi bi-tools me-2"></i>Mantenimiento de Facturas
+                                        </a>
+                                    </nav>
+                                </div>
+
+                                <a id="facturas-clientes" class="nav-link" href="facturas-clientes.html"
+                                    onclick="cargarPagina('facturas-clientes')">Facturas de Clientes</a>
+                                <a id="pagos-proveedores" class="nav-link" href="pagos-proveedores.html"
+                                    onclick="cargarPagina('pagos-proveedores')">Pagos a Proveedores</a>
+                                <a id="cobros-clientes" class="nav-link" href="cobros-clientes.html">Cobros de
+                                    Clientes</a>
+                                <a id="adelantos-anticipos" class="nav-link" href="adelantos-anticipos.html"
+                                    onclick="cargarPagina('adelantos-anticipos')">Adelantos y Anticipos</a>
+                                <a id="costos-obra" class="nav-link" href="costos-obra.html"
+                                    onclick="cargarPagina('costos-obra')">Costos por Obra</a>
+                                <a id="reportes-financieros" class="nav-link" href="reportes-financieros.html"
+                                    onclick="cargarPagina('reportes-financieros')">Reportes Financieros</a>
+                            </nav>
+                        </div>
+
+                        <!-- Obras -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseObras">
+                            <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                            Obras
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseObras" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="mantenimiento-obras" class="nav-link" href="mantenimiento-obras.html"
+                                    onclick="cargarPagina('mantenimiento-obras')">Mantenimiento de Obras</a>
+                                <a id="asignar-materiales" class="nav-link" href="asignar-materiales.html"
+                                    onclick="cargarPagina('asignar-materiales')">Asignar Materiales</a>
+                                <a id="control-existencias" class="nav-link" href="control-existencias.html"
+                                    onclick="cargarPagina('control-existencias')">Control de Existencias</a>
+                                <a id="movimientos-materiales" class="nav-link" href="movimientos-materiales.html"
+                                    onclick="cargarPagina('movimientos-materiales')">Movimientos de Materiales</a>
+                                <a id="traslados-materiales" class="nav-link" href="traslado-materiales.html"
+                                    onclick="cargarPagina('traslados-materiales')">Traslados de Materiales</a>
+                                <a id="registro-perdidas" class="nav-link" href="registro-perdidas.html"
+                                    onclick="cargarPagina('registro-perdidas')">Registro de Pérdidas</a>
+                            </nav>
+                        </div>
+
+                        <div id="administracion" class="sb-sidenav-menu-heading">Administración</div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMantenimiento">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            Mantenimiento
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseMantenimiento" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="usuarios" class="nav-link" href="usuarios.html"
+                                    onclick="cargarPagina('usuarios')">Usuarios</a>
+                                <a id="clientes" class="nav-link" href="clientes.html"
+                                    onclick="cargarPagina('clientes')">Clientes</a>
+                                <a id="proveedores" class="nav-link" href="proveedores.html"
+                                    onclick="cargarPagina('proveedores')">Proveedores</a>
+                                <a id="materiales" class="nav-link" href="materiales.html"
+                                    onclick="cargarPagina('materiales')">Materiales</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado por:</div>
+                    <div id="nomUsuario"></div>
+                    <div class="small">Rol:</div>
+                    <div id="rol"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+                <style>
+                    :root {
+                        --primary-color: #3498db;
+                        --secondary-color: #2ecc71;
+                        --danger-color: #e74c3c;
+                        --warning-color: #f39c12;
+                        --info-color: #1abc9c;
+                        --dark-color: #34495e;
+                        --light-color: #ecf0f1;
+                        --gray-color: #95a5a6;
+                        --purple-color: #9b59b6;
+                    }
+
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    }
+
+                    body {
+                        background-color: #f5f7fa;
+                        color: #333;
+                    }
+
+                    .container {
+                        max-width: 1600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                    }
+
+                    header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 30px;
+                        padding-bottom: 15px;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .logo {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: var(--primary-color);
+                    }
+
+                    .user-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                    .user-avatar {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background-color: var(--primary-color);
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+                    }
+
+                    .dashboard-title {
+                        font-size: 28px;
+                        margin-bottom: 20px;
+                        color: var(--dark-color);
+                    }
+
+                    .stats-grid {
+                        display: grid;
+                        grid-template-columns: repeat(4, 1fr);
+                        gap: 20px;
+                        margin-bottom: 30px;
+                    }
+
+                    .stat-card {
+                        background-color: white;
+                        border-radius: 10px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        transition: transform 0.3s ease;
+                        display: flex;
+                        flex-direction: column;
+                    }
+
+                    .stat-card:hover {
+                        transform: translateY(-5px);
+                    }
+
+                    .stat-card.primary {
+                        border-left: 5px solid var(--primary-color);
+                    }
+
+                    .stat-card.success {
+                        border-left: 5px solid var(--secondary-color);
+                    }
+
+                    .stat-card.warning {
+                        border-left: 5px solid var(--warning-color);
+                    }
+
+                    .stat-card.danger {
+                        border-left: 5px solid var(--danger-color);
+                    }
+
+                    .stat-card.info {
+                        border-left: 5px solid var(--info-color);
+                    }
+
+                    .stat-card.purple {
+                        border-left: 5px solid var(--purple-color);
+                    }
+
+                    .stat-title {
+                        font-size: 14px;
+                        color: var(--gray-color);
+                        margin-bottom: 10px;
+                    }
+
+                    .stat-value {
+                        font-size: 24px;
+                        font-weight: bold;
+                        margin-bottom: 5px;
+                        flex-grow: 1;
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .stat-subvalue {
+                        font-size: 16px;
+                        color: var(--gray-color);
+                        margin-top: 5px;
+                    }
+
+                    .stat-change {
+                        font-size: 12px;
+                        color: var(--gray-color);
+                    }
+
+                    .stat-change.positive {
+                        color: var(--secondary-color);
+                    }
+
+                    .stat-change.negative {
+                        color: var(--danger-color);
+                    }
+
+                    .charts-grid {
+                        display: grid;
+                        grid-template-columns: 2fr 1fr;
+                        gap: 20px;
+                        margin-bottom: 30px;
+                    }
+
+                    .chart-container {
+                        background-color: white;
+                        border-radius: 10px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .chart-title {
+                        font-size: 18px;
+                        margin-bottom: 20px;
+                        color: var(--dark-color);
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+
+                    .chart-actions {
+                        display: flex;
+                        gap: 10px;
+                    }
+
+                    .chart-btn {
+                        background-color: var(--light-color);
+                        border: none;
+                        padding: 5px 10px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+
+                    .chart-btn:hover {
+                        background-color: #ddd;
+                    }
+
+                    .tables-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 20px;
+                        margin-bottom: 30px;
+                    }
+
+                    .table-container {
+                        background-color: white;
+                        border-radius: 10px;
+                        padding: 20px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    }
+
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+
+                    th,
+                    td {
+                        padding: 12px 15px;
+                        text-align: left;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    th {
+                        background-color: #f8f9fa;
+                        font-weight: 600;
+                        color: var(--dark-color);
+                    }
+
+                    tr:hover {
+                        background-color: #f5f5f5;
+                    }
+
+                    .badge {
+                        display: inline-block;
+                        padding: 4px 8px;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+
+                    .badge-primary {
+                        background-color: var(--primary-color);
+                        color: white;
+                    }
+
+                    .badge-success {
+                        background-color: var(--secondary-color);
+                        color: white;
+                    }
+
+                    .badge-warning {
+                        background-color: var(--warning-color);
+                        color: white;
+                    }
+
+                    .badge-danger {
+                        background-color: var(--danger-color);
+                        color: white;
+                    }
+
+                    .badge-info {
+                        background-color: var(--info-color);
+                        color: white;
+                    }
+
+                    .badge-purple {
+                        background-color: var(--purple-color);
+                        color: white;
+                    }
+
+                    .material-low {
+                        color: var(--danger-color);
+                        font-weight: bold;
+                    }
+
+                    .progress-container {
+                        width: 100%;
+                        background-color: #e0e0e0;
+                        border-radius: 4px;
+                        margin-top: 5px;
+                    }
+
+                    .progress-bar {
+                        height: 6px;
+                        border-radius: 4px;
+                        background-color: var(--secondary-color);
+                    }
+
+                    .payment-status {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+
+                    .status-dot {
+                        width: 8px;
+                        height: 8px;
+                        border-radius: 50%;
+                    }
+
+                    .status-dot.paid {
+                        background-color: var(--secondary-color);
+                    }
+
+                    .status-dot.partial {
+                        background-color: var(--warning-color);
+                    }
+
+                    .status-dot.pending {
+                        background-color: var(--danger-color);
+                    }
+
+                    .payment-method {
+                        font-size: 12px;
+                        color: var(--gray-color);
+                    }
+
+                    @media (max-width: 1400px) {
+                        .stats-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                        }
+
+                        .charts-grid,
+                        .tables-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .stats-grid {
+                            grid-template-columns: 1fr;
+                        }
+                    }
+                </style>
+                <body>
+                    <div class="container">
+                        <header>
+                            <div class="user-info">
+                                <div class="user-avatar">JT</div>
+                                <div>
+                                    <div>Juan Torres</div>
+                                    <div style="font-size: 12px; color: #95a5a6;">Administrador</div>
+                                </div>
+                            </div>
+                        </header>
+
+                        <h1 class="dashboard-title">Resumen General</h1>
+
+                        <div class="stats-grid">
+                            <div class="stat-card primary">
+                                <div class="stat-title">Total de Usuarios</div>
+                                <div class="stat-value" id="total-users">10</div>
+                                <div class="stat-change positive">+2 desde el mes pasado</div>
+                            </div>
+
+                            <div class="stat-card success">
+                                <div class="stat-title">Materiales en Stock</div>
+                                <div class="stat-value" id="total-materials">20</div>
+                                <div class="stat-change positive">+5 desde el mes pasado</div>
+                            </div>
+
+                            <div class="stat-card warning">
+                                <div class="stat-title">Compras este mes</div>
+                                <div class="stat-value">Gs. <span id="total-purchases-amount">2,300,000</span></div>
+                                <div class="stat-subvalue"><span id="total-purchases">7</span> transacciones</div>
+                                <div class="stat-change negative">-10% desde el mes pasado</div>
+                            </div>
+
+                            <div class="stat-card danger">
+                                <div class="stat-title">Obras en progreso</div>
+                                <div class="stat-value">Gs. <span id="total-projects-amount">21,500,000</span></div>
+                                <div class="stat-subvalue"><span id="total-projects">2</span> proyectos</div>
+                                <div class="stat-change positive">+1 desde el mes pasado</div>
+                            </div>
+
+                            <div class="stat-card info">
+                                <div class="stat-title">Cobros a clientes</div>
+                                <div class="stat-value">Gs. <span id="total-payments">15,750,000</span></div>
+                                <div class="stat-subvalue"><span id="total-paid-percent">75%</span> del total</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar" id="payment-progress" style="width: 75%"></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-card purple">
+                                <div class="stat-title">Anticipos recibidos</div>
+                                <div class="stat-value">Gs. <span id="total-advances">5,250,000</span></div>
+                                <div class="stat-subvalue"><span id="advance-percent">25%</span> del total</div>
+                                <div class="stat-change positive">+15% desde el mes pasado</div>
+                            </div>
+                        </div>
+
+                        <div class="charts-grid">
+                            <div class="chart-container">
+                                <h2 class="chart-title">
+                                    Estado de Cobros por Obra
+                                    <div class="chart-actions">
+                                        <button class="chart-btn" id="btn-month">Mes</button>
+                                        <button class="chart-btn" id="btn-quarter">Trimestre</button>
+                                        <button class="chart-btn active" id="btn-year">Año</button>
+                                    </div>
+                                </h2>
+                                <canvas id="paymentsChart"></canvas>
+                            </div>
+
+                            <div class="chart-container">
+                                <h2 class="chart-title">Distribución de Pagos</h2>
+                                <canvas id="paymentTypesChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="tables-grid">
+                            <div class="table-container">
+                                <h2 class="chart-title">Próximos Cobros</h2>
+                                <table id="upcomingPaymentsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Obra</th>
+                                            <th>Fecha Venc.</th>
+                                            <th>Monto</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Datos se llenarán con JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table-container">
+                                <h2 class="chart-title">Anticipos Recientes</h2>
+                                <table id="recentAdvancesTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Obra</th>
+                                            <th>Fecha</th>
+                                            <th>Monto</th>
+                                            <th>Método</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Datos se llenarán con JavaScript -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="table-container" style="margin-bottom: 30px;">
+                            <h2 class="chart-title">Resumen de Cobros por Cliente</h2>
+                            <table id="clientPaymentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Obra</th>
+                                        <th>Total</th>
+                                        <th>Anticipo</th>
+                                        <th>Pagado</th>
+                                        <th>Saldo</th>
+                                        <th>Progreso</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Datos se llenarán con JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <script src="./js/bd.js"></script>
+                    <script>
+                        // Llamar a la función datos() para inicializar la base de datos
+                        datos();
+
+                        // Datos de ejemplo para pagos (simulados ya que no están en bd.js)
+                        function generatePaymentData() {
+                            const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+                            const obras = JSON.parse(localStorage.getItem("obras")) || [];
+
+                            const paymentMethods = ['Efectivo', 'Transferencia', 'Cheque', 'Tarjeta'];
+                            const paymentStatuses = ['Completo', 'Parcial', 'Pendiente'];
+
+                            // Generar pagos para cada obra
+                            const pagos = [];
+                            obras.forEach(obra => {
+                                const cliente = clientes.find(c => c.idCliente === obra.cliente) || { razonSocial: 'Desconocido' };
+                                const totalObra = obra.total;
+
+                                // Anticipo (20-30% del total)
+                                const advancePercent = 0.2 + Math.random() * 0.1;
+                                const advanceAmount = Math.round(totalObra * advancePercent);
+
+                                pagos.push({
+                                    id: Math.floor(Math.random() * 10000),
+                                    clienteId: obra.cliente,
+                                    cliente: cliente.razonSocial,
+                                    obraId: obra.idObra,
+                                    obra: obra.nombre,
+                                    fecha: new Date(new Date(obra.fechaInicio).getTime() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000)),
+                                    monto: advanceAmount,
+                                    tipo: 'Anticipo',
+                                    metodo: paymentMethods[Math.floor(Math.random() * paymentMethods.length)],
+                                    estado: 'Completo',
+                                    saldo: 0
+                                });
+
+                                // Pagos parciales (3-5 pagos)
+                                const numPayments = 3 + Math.floor(Math.random() * 3);
+                                const paymentAmount = Math.round((totalObra - advanceAmount) / numPayments);
+
+                                for (let i = 0; i < numPayments; i++) {
+                                    const paymentDate = new Date(new Date(obra.fechaInicio).getTime() +
+                                        (i + 1) * (30 * 24 * 60 * 60 * 1000) / numPayments);
+
+                                    const statusIndex = i < numPayments - 1 ?
+                                        (Math.random() > 0.3 ? 0 : 1) : // Completos o parciales
+                                        (Math.random() > 0.7 ? 0 : 2); // Último pago probablemente pendiente
+
+                                    const status = paymentStatuses[statusIndex];
+                                    const paidAmount = status === 'Completo' ? paymentAmount :
+                                        status === 'Parcial' ? Math.round(paymentAmount * (0.3 + Math.random() * 0.5)) : 0;
+
+                                    pagos.push({
+                                        id: Math.floor(Math.random() * 10000),
+                                        clienteId: obra.cliente,
+                                        cliente: cliente.razonSocial,
+                                        obraId: obra.idObra,
+                                        obra: obra.nombre,
+                                        fecha: paymentDate,
+                                        monto: paymentAmount,
+                                        tipo: 'Parcial',
+                                        metodo: paymentMethods[Math.floor(Math.random() * paymentMethods.length)],
+                                        estado: status,
+                                        saldo: paymentAmount - paidAmount,
+                                        pagado: paidAmount
+                                    });
+                                }
+                            });
+
+                            return pagos;
+                        }
+
+                        // Guardar datos de pagos en localStorage si no existen
+                        if (!localStorage.getItem("pagos")) {
+                            const pagos = generatePaymentData();
+                            localStorage.setItem("pagos", JSON.stringify(pagos));
+                        }
+
+                        // Obtener datos del localStorage
+                        const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+                        const materiales = JSON.parse(localStorage.getItem("materiales")) || [];
+                        const comprasCabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                        const comprasDetalle = JSON.parse(localStorage.getItem("comprasdetalle")) || [];
+                        const proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+                        const obras = JSON.parse(localStorage.getItem("obras")) || [];
+                        const categorias = JSON.parse(localStorage.getItem("categorias")) || [];
+                        const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+                        const pagos = JSON.parse(localStorage.getItem("pagos")) || [];
+
+                        // Actualizar estadísticas
+                        document.getElementById('total-users').textContent = usuarios.length;
+                        document.getElementById('total-materials').textContent = materiales.length;
+                        document.getElementById('total-purchases').textContent = comprasCabecera.length;
+
+                        // Calcular total de compras
+                        const totalCompras = comprasCabecera.reduce((sum, compra) => sum + compra.totcompra, 0);
+                        document.getElementById('total-purchases-amount').textContent = totalCompras.toLocaleString('es-PY');
+
+                        document.getElementById('total-projects').textContent = obras.length;
+
+                        // Calcular total de proyectos
+                        const totalProyectos = obras.reduce((sum, obra) => sum + obra.total, 0);
+                        document.getElementById('total-projects-amount').textContent = totalProyectos.toLocaleString('es-PY');
+
+                        // Calcular estadísticas de pagos
+                        const totalPagado = pagos.reduce((sum, pago) => sum + (pago.pagado || pago.monto), 0);
+                        const totalAnticipos = pagos.filter(p => p.tipo === 'Anticipo')
+                            .reduce((sum, pago) => sum + pago.monto, 0);
+                        const totalPendiente = totalProyectos - totalPagado;
+                        const porcentajePagado = Math.round((totalPagado / totalProyectos) * 100);
+
+                        document.getElementById('total-payments').textContent = totalPagado.toLocaleString('es-PY');
+                        document.getElementById('total-paid-percent').textContent = `${porcentajePagado}%`;
+                        document.getElementById('payment-progress').style.width = `${porcentajePagado}%`;
+                        document.getElementById('total-advances').textContent = totalAnticipos.toLocaleString('es-PY');
+                        document.getElementById('advance-percent').textContent = `${Math.round((totalAnticipos / totalProyectos) * 100)}%`;
+
+                        // Gráfico de estado de cobros por obra
+                        const paymentsByProject = {};
+                        obras.forEach(obra => {
+                            const projectPayments = pagos.filter(p => p.obraId === obra.idObra);
+                            const paid = projectPayments.reduce((sum, p) => sum + (p.pagado || p.monto), 0);
+                            const pending = obra.total - paid;
+
+                            paymentsByProject[obra.nombre] = {
+                                paid,
+                                pending,
+                                total: obra.total
+                            };
+                        });
+
+                        const paymentsCtx = document.getElementById('paymentsChart').getContext('2d');
+                        const paymentsChart = new Chart(paymentsCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: Object.keys(paymentsByProject),
+                                datasets: [
+                                    {
+                                        label: 'Pagado',
+                                        data: Object.values(paymentsByProject).map(p => p.paid),
+                                        backgroundColor: 'rgba(46, 204, 113, 0.7)',
+                                        borderColor: 'rgba(46, 204, 113, 1)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: 'Pendiente',
+                                        data: Object.values(paymentsByProject).map(p => p.pending),
+                                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
+                                        borderColor: 'rgba(231, 76, 60, 1)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    x: {
+                                        stacked: true,
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function (value) {
+                                                return value.toLocaleString('es-PY');
+                                            }
+                                        }
+                                    }
+                                },
+                                plugins: {
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `${context.dataset.label}: ${context.raw.toLocaleString('es-PY')}`;
+                                            },
+                                            footer: function (tooltipItems) {
+                                                const total = tooltipItems.reduce((sum, item) => sum + item.parsed.y, 0);
+                                                const project = paymentsByProject[tooltipItems[0].label];
+                                                const percent = Math.round((tooltipItems[0].parsed.y / project.total) * 100);
+                                                return `Total: ${project.total.toLocaleString('es-PY')} (${percent}%)`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+
+                        // Gráfico de tipos de pago
+                        const paymentTypes = {
+                            'Anticipo': 0,
+                            'Parcial': 0,
+                            'Completo': 0
+                        };
+
+                        pagos.forEach(pago => {
+                            if (pago.tipo === 'Anticipo') {
+                                paymentTypes['Anticipo'] += pago.monto;
+                            } else {
+                                paymentTypes['Parcial'] += pago.pagado || 0;
+                                if (pago.estado === 'Completo') {
+                                    paymentTypes['Completo'] += pago.monto;
+                                }
+                            }
+                        });
+
+                        const paymentTypesCtx = document.getElementById('paymentTypesChart').getContext('2d');
+                        const paymentTypesChart = new Chart(paymentTypesCtx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['Anticipos', 'Pagos Parciales', 'Pagos Completos'],
+                                datasets: [{
+                                    data: [
+                                        paymentTypes['Anticipo'],
+                                        paymentTypes['Parcial'],
+                                        paymentTypes['Completo']
+                                    ],
+                                    backgroundColor: [
+                                        'rgba(155, 89, 182, 0.7)',
+                                        'rgba(52, 152, 219, 0.7)',
+                                        'rgba(46, 204, 113, 0.7)'
+                                    ],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                    },
+                                    datalabels: {
+                                        formatter: (value, ctx) => {
+                                            const sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = Math.round((value / sum) * 100);
+                                            return `${percentage}%`;
+                                        },
+                                        color: '#fff',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return `${context.label}: ${context.raw.toLocaleString('es-PY')}`;
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: [ChartDataLabels]
+                        });
+
+                        // Tabla de próximos pagos (ordenados por fecha ascendente)
+                        const upcomingPayments = pagos
+                            .filter(p => p.estado !== 'Completo' && new Date(p.fecha) > new Date())
+                            .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
+                            .slice(0, 5);
+
+                        const upcomingPaymentsTable = document.querySelector('#upcomingPaymentsTable tbody');
+
+                        upcomingPayments.forEach(pago => {
+                            const row = document.createElement('tr');
+                            const fecha = new Date(pago.fecha).toLocaleDateString('es-PY');
+                            const statusClass = pago.estado === 'Parcial' ? 'partial' : 'pending';
+
+                            row.innerHTML = `
+                <td>${pago.cliente}</td>
+                <td>${pago.obra}</td>
+                <td>${fecha}</td>
+                <td>${pago.monto.toLocaleString('es-PY')}</td>
+                <td>
+                    <div class="payment-status">
+                        <div class="status-dot ${statusClass}"></div>
+                        ${pago.estado}
+                    </div>
+                </td>
+            `;
+                            upcomingPaymentsTable.appendChild(row);
+                        });
+
+                        // Tabla de anticipos recientes (ordenados por fecha descendente)
+                        const recentAdvances = pagos
+                            .filter(p => p.tipo === 'Anticipo')
+                            .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+                            .slice(0, 5);
+
+                        const recentAdvancesTable = document.querySelector('#recentAdvancesTable tbody');
+
+                        recentAdvances.forEach(advance => {
+                            const row = document.createElement('tr');
+                            const fecha = new Date(advance.fecha).toLocaleDateString('es-PY');
+
+                            row.innerHTML = `
+                <td>${advance.cliente}</td>
+                <td>${advance.obra}</td>
+                <td>${fecha}</td>
+                <td>${advance.monto.toLocaleString('es-PY')}</td>
+                <td>
+                    <span class="payment-method">${advance.metodo}</span>
+                </td>
+            `;
+                            recentAdvancesTable.appendChild(row);
+                        });
+
+                        // Tabla resumen de pagos por cliente
+                        const clientPayments = {};
+
+                        pagos.forEach(pago => {
+                            if (!clientPayments[pago.clienteId]) {
+                                clientPayments[pago.clienteId] = {
+                                    cliente: pago.cliente,
+                                    obras: {}
+                                };
+                            }
+
+                            if (!clientPayments[pago.clienteId].obras[pago.obraId]) {
+                                clientPayments[pago.clienteId].obras[pago.obraId] = {
+                                    obra: pago.obra,
+                                    total: 0,
+                                    anticipo: 0,
+                                    pagado: 0,
+                                    saldo: 0
+                                };
+                            }
+
+                            const obra = clientPayments[pago.clienteId].obras[pago.obraId];
+
+                            if (pago.tipo === 'Anticipo') {
+                                obra.anticipo += pago.monto;
+                                obra.pagado += pago.monto;
+                            } else {
+                                obra.pagado += pago.pagado || 0;
+                                obra.saldo += pago.saldo || 0;
+                            }
+                        });
+
+                        // Calcular totales por obra
+                        obras.forEach(obra => {
+                            const clienteId = obra.cliente;
+                            if (clientPayments[clienteId] && clientPayments[clienteId].obras[obra.idObra]) {
+                                clientPayments[clienteId].obras[obra.idObra].total = obra.total;
+                            }
+                        });
+
+                        const clientPaymentsTable = document.querySelector('#clientPaymentsTable tbody');
+
+                        Object.values(clientPayments).forEach(cliente => {
+                            Object.values(cliente.obras).forEach(obra => {
+                                const row = document.createElement('tr');
+                                const progressPercent = Math.round((obra.pagado / obra.total) * 100);
+
+                                row.innerHTML = `
+                    <td>${cliente.cliente}</td>
+                    <td>${obra.obra}</td>
+                    <td>${obra.total.toLocaleString('es-PY')}</td>
+                    <td>${obra.anticipo.toLocaleString('es-PY')}</td>
+                    <td>${obra.pagado.toLocaleString('es-PY')}</td>
+                    <td>${obra.saldo.toLocaleString('es-PY')}</td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <small>${progressPercent}%</small>
+                    </td>
+                `;
+                                clientPaymentsTable.appendChild(row);
+                            });
+                        });
+
+                        // Botones de filtro de tiempo
+                        document.getElementById('btn-month').addEventListener('click', function () {
+                            this.classList.add('active');
+                            document.getElementById('btn-quarter').classList.remove('active');
+                            document.getElementById('btn-year').classList.remove('active');
+                            // Aquí iría la lógica para actualizar el gráfico con datos mensuales
+                        });
+
+                        document.getElementById('btn-quarter').addEventListener('click', function () {
+                            this.classList.add('active');
+                            document.getElementById('btn-month').classList.remove('active');
+                            document.getElementById('btn-year').classList.remove('active');
+                            // Aquí iría la lógica para actualizar el gráfico con datos trimestrales
+                        });
+
+                        document.getElementById('btn-year').addEventListener('click', function () {
+                            this.classList.add('active');
+                            document.getElementById('btn-month').classList.remove('active');
+                            document.getElementById('btn-quarter').classList.remove('active');
+                            // Aquí iría la lógica para actualizar el gráfico con datos anuales
+                        });
+                    </script>
+                </body>
+</body>
+</body>
+</main>
+<footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; 2A Constructora 2025</div>
+            <div>
+                <a href="#">Política de Privacidad</a>
+                &middot;
+                <a href="#">Términos &amp; Condiciones</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+<!-- Scripts -->
+<script src="js/roleMenuAccess.js"></script>
+<script src="js/funcionesSistema.js"></script>
+<script src="menu/scripts.js"></script>
+<script src="js/cerrarSesion.js"></script>
+<script src="js/user-functions.js"></script>
+<!-- Bootstrap -->
+<script src="menu/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="dt/jquery-3.7.1.js"></script>
+<script src="dt/datatables.min.js"></script>
+<script src="dt/jquery.dataTables.min.js"></script>
+<!-- DataTables Buttons Extension -->
+<script src="dt/dataTables.buttons.min.js"></script>
+<script src="dt/buttons.print.min.js"></script>
+<script src="dt/buttons.html5.min.js"></script>
+<!-- DataTables JSZip y pdfmake para exportar -->
+<script src="dt/jszip.min.js"></script>
+<script src="dt/pdfmake.min.js"></script>
+<script src="dt/vfs_fonts.js"></script>
+<!-- DataTables Idioma Español -->
+<script src="dt/es-ES.js"></script>
+
+<script>
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (!currentUser) {
+        window.location.href = 'error.html';
+    }
+
+    // Control de seguridad del usuario actual
+    document.addEventListener('DOMContentLoaded', function () {
+        // Verificar si el usuario está autenticado
+        if (!currentUser) {
+            alertify.error("Usuario no encontrado.");
+            setTimeout(() => {
+                window.location.href = "error.html";
+            }, 2000);
+            return;
+        } else {
+            // Mostrar el nombre del usuario y rol en el menú
+            document.getElementById('nomUsuario').innerText = `${currentUser.nombre} ${currentUser.apellido}`;
+            document.getElementById("rol").textContent = formatearRol(currentUser.rol);
+        }
+
+        // Configurar tema oscuro
+        configurarTemaOscuro();
+    });
+
+    // Función para dark mode
+    function configurarTemaOscuro() {
+        // Verificar preferencia inicial
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+        }
+
+        // Toggle modo oscuro
+        document.getElementById('darkModeToggle').addEventListener('click', function () {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            this.innerHTML = html.classList.contains('dark') ?
+                '<i class="bi bi-sun"></i>' :
+                '<i class="bi bi-moon-stars"></i>';
+        });
+
+        // Escuchar cambios en preferencias del sistema
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            const html = document.documentElement;
+            if (e.matches) {
+                html.classList.add('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+            } else {
+                html.classList.remove('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-moon-stars"></i>';
+            }
+        });
+    }
+
+    // Formatear el nombre del rol para mostrar
+    function formatearRol(rol) {
+        switch (rol) {
+            case 'administrador': return 'Administrador';
+            case 'jefe_obra': return 'Jefe de Obra';
+            case 'gerente': return 'Gerente';
+            case 'obrero': return 'Obrero';
+            case 'contador': return 'Contador/Financiero';
+            case 'codificador': return 'Codificador';
+            default: return rol;
+        }
+    }
+
+    // Función para cargar páginas en el contenido principal
+    function cargarPagina(pagina) {
+        const contenedor = document.getElementById('contenidoPrincipal');
+        // Aquí se cargaría el contenido de la página mediante fetch o XMLHttpRequest
+        // Por ahora, solo mostramos un mensaje indicando qué página se cargaría
+        contenedor.innerHTML = `
+                    <h1 class="mt-4">${pagina.charAt(0).toUpperCase() + pagina.slice(1).replace('-', ' ')}</h1>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <p>Contenido de la página ${pagina}...</p>
+                        </div>
+                    </div>
+                `;
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Facturas de Clientes</title>
+    <link rel="icon" href="img/2A_constructora_logo.png">
+
+    <!-- Estilos -->
+    <link href="menu/styles.css" rel="stylesheet" />
+
+    <!-- Frameworks -->
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="bt-icons/bootstrap-icons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="dt/datatables.min.css">
+    <link rel="stylesheet" href="dt/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="dt/buttons.dataTables.min.css">
+    <!-- AlertifyJS -->
+    <link rel="stylesheet" href="alert/alertify.min.css">
+    <link rel="stylesheet" href="alert/themes/default.min.css">
+    <script src="alert/alertify.min.js"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Barra de navegación superior -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="menu.html" onclick="cargarPagina('menu')">
+            <img src="img/2A_constructora_logo.png" alt="Logo" height="30" class="me-2">
+            2A Constructora
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i
+                class="bi bi-list"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <div class="me-3">
+            <button id="darkModeToggle" class="btn btn-link text-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="configuracion.html">Configuración</a></li>
+                    <li><a class="dropdown-item" href="#">Actividad</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Estructura del layout con menú lateral -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div id="principal" class="sb-sidenav-menu-heading">Principal</div>
+                        <a id="dashboard" class="nav-link" href="dashboard.html" onclick="cargarPagina('menu')">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div id="modulos" class="sb-sidenav-menu-heading">Módulos</div>
+
+                        <!-- Finanzas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFinanzas">
+                            <div class="sb-nav-link-icon"><i class="bi bi-currency-dollar"></i></div>
+                            Finanzas
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseFinanzas" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="facturas-proveedores" class="nav-link collapsed" href="#"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseProveedores">
+                                    Facturas de Proveedores
+                                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseProveedores" data-bs-parent="#collapseFinanzas">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a href="facturas-proveedores.html" class="nav-link">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Registrar Compras
+                                        </a>
+                                        <a href="mantenimiento-facturas.html" class="nav-link">
+                                            <i class="bi bi-tools me-2"></i>Mantenimiento de Facturas
+                                        </a>
+                                    </nav>
+                                </div>
+
+                                <a id="facturas-clientes" class="nav-link active" href="facturas-clientes.html">Facturas
+                                    de Clientes</a>
+                                <a id="pagos-proveedores" class="nav-link" href="pagos-proveedores.html">Pagos a
+                                    Proveedores</a>
+                                <a id="cobros-clientes" class="nav-link" href="cobros-clientes.html">Cobros de
+                                    Clientes</a>
+                                <a id="adelantos-anticipos" class="nav-link" href="adelantos-anticipos.html">Adelantos y
+                                    Anticipos</a>
+                                <a id="costos-obra" class="nav-link" href="costos-obra.html">Costos por Obra</a>
+                                <a id="reportes-financieros" class="nav-link" href="reportes-financieros.html">Reportes
+                                    Financieros</a>
+                            </nav>
+                        </div>
+
+                        <!-- Obras -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseObras">
+                            <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                            Obras
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseObras" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="mantenimiento-obras" class="nav-link"
+                                    href="mantenimiento-obras.html">Mantenimiento de Obras</a>
+                                <a id="asignar-materiales" class="nav-link" href="asignar-materiales.html">Asignar
+                                    Materiales</a>
+                                <a id="control-existencias" class="nav-link" href="control-existencias.html">Control de
+                                    Existencias</a>
+                                <a id="movimientos-materiales" class="nav-link"
+                                    href="movimientos-materiales.html">Movimientos de Materiales</a>
+                                <a id="traslados-materiales" class="nav-link" href="traslado-materiales.html">Traslados
+                                    de Materiales</a>
+                                <a id="registro-perdidas" class="nav-link" href="registro-perdidas.html">Registro de
+                                    Pérdidas</a>
+                            </nav>
+                        </div>
+
+                        <div id="administracion" class="sb-sidenav-menu-heading">Administración</div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMantenimiento">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            Mantenimiento
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseMantenimiento" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="usuarios" class="nav-link" href="usuarios.html">Usuarios</a>
+                                <a id="clientes" class="nav-link" href="clientes.html">Clientes</a>
+                                <a id="proveedores" class="nav-link" href="proveedores.html">Proveedores</a>
+                                <a id="materiales" class="nav-link" href="materiales.html">Materiales</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado por:</div>
+                    <div id="nomUsuario"></div>
+                    <div class="small">Rol:</div>
+                    <div id="rol"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <div class="row mb-4 mt-4">
+                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                            <h2 class="mb-0"><i class="bi bi-receipt me-2"></i>Registro de Facturas a Clientes</h2>
+                            <a href="mantenimiento-facturas-clientes.html" class="btn btn-primary">
+                                <i class="bi bi-list me-1"></i> Ver Todas las Facturas
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de factura a cliente -->
+                    <form id="formFactura" class="card shadow-sm fade-in needs-validation" novalidate>
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="bi bi-file-earmark-plus me-2"></i>Datos de la Factura</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">R.U.C./C.I.</label>
+                                    <div class="input-group">
+                                        <input type="text" id="rucCi" class="form-control" required>
+                                        <button type="button" class="btn btn-outline-secondary" id="btnBuscarRuc"
+                                            title="Buscar cliente (F2)"><i class="bi bi-search"></i></button>
+                                        <div class="invalid-feedback">Ingrese un RUC o CI válido</div>
+                                    </div>
+                                    <small class="text-muted"><span class="shortcut-badge">F2</span> para buscar</small>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="form-label fw-bold">CLIENTE</label>
+                                    <div class="input-group">
+                                        <input type="text" id="cliente" class="form-control text-uppercase" required
+                                            readonly>
+                                        <button type="button" class="btn btn-outline-secondary" id="btnBuscarNombre"
+                                            title="Buscar por nombre (F2)"><i class="bi bi-search"></i></button>
+                                        <div class="invalid-feedback">Seleccione un cliente válido</div>
+                                    </div>
+                                    <input type="hidden" id="idcliente">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">CONDICIÓN</label>
+                                    <select id="condicion" class="form-select">
+                                        <option value="CONTADO">CONTADO</option>
+                                        <option value="CRÉDITO">CRÉDITO</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">FECHA</label>
+                                    <input type="date" id="fecha" class="form-control" required>
+                                    <div class="invalid-feedback">Ingrese una fecha válida</div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">N° FACTURA</label>
+                                    <input type="text" id="numfactura" class="form-control" required minlength="7"
+                                        maxlength="15" placeholder="001-001-0000000">
+                                    <div class="invalid-feedback">Formato requerido: XXX-XXX-XXXXXXX</div>
+                                </div>
+                            </div>
+
+                            <div id="seccionFechaVencimiento" class="row mb-3" style="display: none;">
+                                <div class="col-sm-4 offset-sm-8">
+                                    <label class="form-label fw-bold">FECHA DE VENCIMIENTO</label>
+                                    <input type="date" id="fechaVencimiento" class="form-control">
+                                    <div class="invalid-feedback">Ingrese una fecha de vencimiento válida</div>
+                                    <small class="text-muted">Fecha límite para cobro de la factura a crédito</small>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <label class="form-label fw-bold">OBRA RELACIONADA</label>
+                                    <select id="obra" class="form-select">
+
+                                        <!-- Se cargará dinámicamente -->
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-9">
+                                    <label class="form-label fw-bold">CONCEPTO</label>
+                                    <input type="text" id="concepto" class="form-control"
+                                        placeholder="Descripción general de la factura">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-5">
+                                    <label class="form-label fw-bold">DESCRIPCIÓN</label>
+                                    <input type="text" id="descripcion" class="form-control text-uppercase" required
+                                        placeholder="Detalle del servicio o producto">
+                                    <div class="invalid-feedback">Ingrese una descripción</div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <label class="form-label fw-bold">CANT.</label>
+                                    <input type="number" id="cantidad" class="form-control" required min="1" max="9999"
+                                        value="1">
+                                    <div class="invalid-feedback">Ingrese una cantidad válida</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">IVA</label>
+                                    <select id="iva" class="form-select" required>
+                                        <option value="5">5%</option>
+                                        <option value="10" selected>10%</option>
+                                        <option value="0">Exento</option>
+                                    </select>
+                                    <div class="invalid-feedback">Seleccione un tipo de IVA válido</div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold" for="preuni">PRE. UNI.</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₲</span>
+                                        <input type="text" id="preuni" class="form-control" required>
+                                        <div class="invalid-feedback">Ingrese un precio válido</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label class="form-label fw-bold">SUBTOTAL</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₲</span>
+                                        <input type="text" id="subtotal" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1 d-grid align-items-end">
+                                    <button type="button" id="btnAgregarItem" class="btn btn-success"
+                                        title="Agregar ítem (F8)"><i class="bi bi-plus-circle"></i></button>
+                                    <small class="text-muted text-center mt-1"><span
+                                            class="shortcut-badge">F8</span></small>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <h5 class="m-0">Ítems de la Factura</h5>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <table id="tablaItems" class="display table table-striped table-hover"
+                                                style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th>Descripción</th>
+                                                        <th>I.V.A.</th>
+                                                        <th>Cant.</th>
+                                                        <th>Pre. Uni.</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="5" style="text-align: right;">Total:</th>
+                                                        <th id="totalFactura"
+                                                            style="min-width: 100px; text-align: right;">₲ 0</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary btn-lg" title="Guardar factura (F10)">
+                                        <i class="bi bi-save me-2"></i> Guardar Factura
+                                    </button>
+                                    <small class="d-block text-muted mt-1"><span class="shortcut-badge">F10</span> para
+                                        guardar</small>
+                                    <button type="button" class="btn btn-secondary btn-lg ms-2" id="btnLimpiar">
+                                        <i class="bi bi-x-circle me-2"></i> Limpiar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; 2A Constructora 2025</div>
+                        <div>
+                            <a href="#">Política de Privacidad</a>
+                            &middot;
+                            <a href="#">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Clientes -->
+    <div class="modal fade" id="modalClientes" tabindex="-1" aria-labelledby="modalClientesLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalClientesLabel">Búsqueda de Clientes</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="filtroRucCi" class="form-label">Filtrar por RUC/CI:</label>
+                            <input type="text" id="filtroRucCi" class="form-control" placeholder="Ingrese RUC o CI">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filtroNombre" class="form-label">Filtrar por Nombre:</label>
+                            <input type="text" id="filtroNombre" class="form-control" placeholder="Ingrese nombre">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button id="btnFiltrarClientes" class="btn btn-primary me-2">
+                                <i class="bi bi-filter me-1"></i> Filtrar
+                            </button>
+                            <button id="btnLimpiarFiltros" class="btn btn-secondary">
+                                <i class="bi bi-x-circle me-1"></i> Limpiar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="tablaClientes" class="display table table-striped table-hover w-100">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>RUC/CI</th>
+                                    <th>Nombre/Razón Social</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                    <th>Dirección</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos se cargarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/roleMenuAccess.js"></script>
+    <script src="js/funcionesSistema.js"></script>
+    <script src="menu/scripts.js"></script>
+    <script src="js/cerrarSesion.js"></script>
+    <!-- Bootstrap -->
+    <script src="menu/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="dt/jquery-3.7.1.js"></script>
+    <script src="dt/datatables.min.js"></script>
+    <script src="dt/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="dt/dataTables.buttons.min.js"></script>
+    <script src="dt/buttons.print.min.js"></script>
+    <script src="dt/buttons.html5.min.js"></script>
+    <!-- DataTables JSZip y pdfmake para exportar -->
+    <script src="dt/jszip.min.js"></script>
+    <script src="dt/pdfmake.min.js"></script>
+    <script src="dt/vfs_fonts.js"></script>
+    <!-- DataTables Idioma Español -->
+    <script src="dt/es-ES.js"></script>
+
+    <script>
+        // Variables globales
+        let idFacturaActual = null;
+        let editMode = false;
+
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (!currentUser) {
+            window.location.href = 'error.html';
+        }
+
+        // Control de seguridad del usuario actual
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // Verificar si el usuario está autenticado
+                if (!currentUser) {
+                    alertify.error("Usuario no encontrado.");
+                    setTimeout(() => {
+                        window.location.href = "error.html";
+                    }, 2000);
+                    return;
+                } else {
+                    // Mostrar el nombre del usuario y rol en el menú
+                    document.getElementById('nomUsuario').innerText = `${currentUser.nombre} ${currentUser.apellido}`;
+                    document.getElementById("rol").textContent = formatearRol(currentUser.rol);
+                }
+
+                // Configurar tema oscuro
+                configurarTemaOscuro();
+
+                // Inicializar la fecha con la fecha actual
+                document.getElementById('fecha').valueAsDate = new Date();
+
+                // Inicializar eventos
+                inicializarEventos();
+
+                // Inicializar las tablas
+                inicializarTablas();
+
+                // Cargar datos
+                cargarDatos();
+
+                // Inicializar tooltips
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+
+                // Obtener último ID de factura para la nueva factura
+                actualizarIdFacturaActual();
+
+                // Verificar si la URL tiene parámetro de edición
+                checkEditParameter();
+            } catch (error) {
+                alertify.error("Error al inicializar la página: " + error.message);
+                console.error("Error completo:", error);
+            }
+        });
+
+        // Función para dark mode
+        function configurarTemaOscuro() {
+            // Verificar preferencia inicial
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+            }
+
+            // Toggle modo oscuro
+            document.getElementById('darkModeToggle').addEventListener('click', function () {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+                this.innerHTML = html.classList.contains('dark') ?
+                    '<i class="bi bi-sun"></i>' :
+                    '<i class="bi bi-moon-stars"></i>';
+            });
+
+            // Escuchar cambios en preferencias del sistema
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const html = document.documentElement;
+                if (e.matches) {
+                    html.classList.add('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+                } else {
+                    html.classList.remove('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-moon-stars"></i>';
+                }
+            });
+        }
+
+        // Formatear el nombre del rol para mostrar
+        function formatearRol(rol) {
+            switch (rol) {
+                case 'administrador': return 'Administrador';
+                case 'jefe_obra': return 'Jefe de Obra';
+                case 'gerente': return 'Gerente';
+                case 'obrero': return 'Obrero';
+                case 'contador': return 'Contador/Financiero';
+                case 'codificador': return 'Codificador';
+                default: return rol;
+            }
+        }
+
+        // Verificar si hay parámetro de edición en la URL
+        function checkEditParameter() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const editId = urlParams.get('edit');
+            if (editId) {
+                // Cargar la factura en modo edición
+                cargarFacturaParaEdicion(parseInt(editId));
+            }
+        }
+
+        // Obtener el último ID de factura y asignar el siguiente
+        function actualizarIdFacturaActual() {
+            try {
+                const facturascabecera = JSON.parse(localStorage.getItem("facturascabecera")) || [];
+                if (facturascabecera.length > 0) {
+                    // Encontrar el máximo idfactura
+                    const maxId = Math.max(...facturascabecera.map(factura => factura.idfactura));
+                    idFacturaActual = maxId + 1;
+                } else {
+                    idFacturaActual = 1;
+                }
+                console.log("Nuevo ID de factura asignado:", idFacturaActual);
+            } catch (error) {
+                console.error("Error al obtener último ID de factura:", error);
+                idFacturaActual = 1; // Valor por defecto
+            }
+        }
+
+        // Cargar datos (clientes, obras)
+        function cargarDatos() {
+            // Cargar clientes para el modal
+            cargarClientesModal();
+
+            // Cargar obras para el select
+            cargarObrasSelect();
+        }
+
+        // Cargar clientes en el modal
+        function cargarClientesModal() {
+            try {
+                // Obtener clientes
+                let clientes = [];
+                if (typeof obtenerClientes === 'function') {
+                    clientes = obtenerClientes();
+                } else {
+                    clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+                }
+
+                const tablaClientes = $('#tablaClientes').DataTable();
+                tablaClientes.clear();
+
+                // Si no hay clientes, mostrar mensaje
+                if (clientes.length === 0) {
+                    alertify.warning("No hay clientes registrados en el sistema");
+                    return;
+                }
+
+                // Agregar clientes a la tabla
+                clientes.forEach(cliente => {
+                    const btnSeleccionar = '<button class="btn btn-primary btn-sm btn-tabla seleccionar-cliente">Seleccionar</button>';
+
+                    tablaClientes.row.add([
+                        cliente.idCliente || '',
+                        cliente.rucCi || '',
+                        cliente.razonSocial || '',
+                        cliente.celular || '',
+                        cliente.email || '',
+                        cliente.direccion || '',
+                        btnSeleccionar
+                    ]).draw(false);
+                });
+            } catch (error) {
+                alertify.error("Error al cargar clientes: " + error.message);
+                console.error("Error completo:", error);
+            }
+        }
+
+        // Cargar obras para el select
+        function cargarObrasSelect() {
+            try {
+                const obras = JSON.parse(localStorage.getItem("obras")) || [];
+                const selectObra = document.getElementById('obra');
+
+                // Limpiar opciones existentes excepto la primera
+                while (selectObra.options.length > 1) {
+                    selectObra.remove(1);
+                }
+
+                // Agregar obras al select
+                obras.forEach(obra => {
+                    const option = document.createElement('option');
+                    option.value = obra.idObra;
+                    option.textContent = obra.nombre;
+                    selectObra.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error("Error al cargar obras en select:", error);
+            }
+        }
+
+        // Inicializar las tablas
+        function inicializarTablas() {
+            // Tabla principal de ítems
+            $('#tablaItems').DataTable({
+                scrollY: '250px',
+                scrollCollapse: true,
+                paging: false,
+                searching: false,
+                info: false,
+                ordering: false,
+                language: spanish || {
+                    "decimal": ",",
+                    "thousands": ".",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                    "infoPostFix": "",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron coincidencias",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": activar para ordenar la columna ascendentemente",
+                        "sortDescending": ": activar para ordenar la columna descendentemente"
+                    }
+                },
+                columnDefs: [
+                    { targets: 0, width: '5%' },
+                    { targets: 1, width: '50%' },
+                    { targets: 2, width: '10%' },
+                    { targets: 3, width: '5%', className: 'text-end' },
+                    { targets: 4, width: '15%', className: 'text-end' },
+                    { targets: 5, width: '15%', className: 'text-end' },
+                    { targets: 6, width: '5%', className: 'text-center' }
+                ]
+            });
+
+            // Evento delegado para quitar filas
+            $('#tablaItems tbody').on('click', '.quitar-fila', function () {
+                const tabla = $('#tablaItems').DataTable();
+                tabla.row($(this).parents('tr')).remove().draw();
+                calcularTotalFactura();
+                actualizarNumerosItem();
+                alertify.success('Ítem eliminado correctamente');
+            });
+
+            // Tabla de clientes para búsqueda
+            $('#tablaClientes').DataTable({
+                scrollY: '400px',
+                scrollCollapse: true,
+                paging: true,
+                searching: true,
+                info: true,
+                ordering: true,
+                language: spanish || {
+                    "decimal": ",",
+                    "thousands": ".",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                    "infoPostFix": "",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron coincidencias",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": activar para ordenar la columna ascendentemente",
+                        "sortDescending": ": activar para ordenar la columna descendentemente"
+                    }
+                },
+                columnDefs: [
+                    { targets: 0, visible: false }, // ID (oculto)
+                    { targets: 1, width: '15%' }, // RUC/CI
+                    { targets: 2, width: '25%' }, // Nombre
+                    { targets: 3, width: '15%' }, // Teléfono
+                    { targets: 4, width: '20%' }, // Email
+                    { targets: 5, width: '15%' }, // Dirección
+                    { targets: 6, width: '10%', className: 'text-center' } // Acción
+                ],
+                dom: 'lfrtip',
+                lengthMenu: [5, 10, 25, 50],
+                pageLength: 5
+            });
+
+            // Evento para seleccionar cliente
+            $('#tablaClientes tbody').on('click', '.seleccionar-cliente', function () {
+                const fila = $(this).closest('tr');
+                const tablaClientes = $('#tablaClientes').DataTable();
+                const data = tablaClientes.row(fila).data();
+                seleccionarCliente(data[0], data[1], data[2]); // ID, RUC/CI, Nombre
+            });
+
+            // Doble clic para seleccionar cliente
+            $('#tablaClientes tbody').on('dblclick', 'tr', function () {
+                const tablaClientes = $('#tablaClientes').DataTable();
+                const data = tablaClientes.row(this).data();
+                seleccionarCliente(data[0], data[1], data[2]); // ID, RUC/CI, Nombre
+            });
+
+            // Resaltar fila seleccionada en clientes
+            $('#tablaClientes tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected-row')) {
+                    $(this).removeClass('selected-row');
+                } else {
+                    $('#tablaClientes').DataTable().$('tr.selected-row').removeClass('selected-row');
+                    $(this).addClass('selected-row');
+                }
+            });
+        }
+
+        // Actualizar números de item después de eliminar una fila
+        function actualizarNumerosItem() {
+            const tabla = $('#tablaItems').DataTable();
+            let contador = 1;
+
+            tabla.rows().every(function () {
+                const data = this.data();
+                data[0] = contador++;
+                this.data(data);
+            });
+        }
+
+
+        // Cargar factura para edición
+        function cargarFacturaParaEdicion(id) {
+            try {
+                // Buscar la factura por ID
+                const facturascabecera = JSON.parse(localStorage.getItem("facturascabecera")) || [];
+                const facturasdetalle = JSON.parse(localStorage.getItem("facturasdetalle")) || [];
+                const factura = facturascabecera.find(f => f.idfactura === id);
+
+                if (!factura) {
+                    alertify.error('No se encontró la factura con ID: ' + id);
+                    return;
+                }
+
+                // Verificar si está anulada
+                if (factura.anulado === "SI") {
+                    alertify.error('No se puede editar una factura anulada');
+                    setTimeout(() => {
+                        window.location.href = "mantenimiento-facturas-clientes.html";
+                    }, 2000);
+                    return;
+                }
+
+                // Buscar detalles de la factura
+                const detalles = facturasdetalle.filter(d => d.idfactura === id);
+
+                // Buscar cliente
+                const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+                const cliente = clientes.find(c => c.idCliente === factura.idcliente);
+
+                // Cargar datos en el formulario
+                document.getElementById('rucCi').value = cliente ? cliente.rucCi : "";
+                document.getElementById('cliente').value = cliente ? cliente.razonSocial : "";
+                document.getElementById('idcliente').value = factura.idcliente;
+                document.getElementById('condicion').value = factura.condicion;
+                document.getElementById('fecha').value = factura.fecfactura;
+                document.getElementById('numfactura').value = factura.numfactura;
+                document.getElementById('obra').value = factura.idobra || "";
+                document.getElementById('concepto').value = factura.concepto || "";
+
+                // Si es crédito, mostrar y establecer fecha de vencimiento
+                if (factura.condicion === "CRÉDITO") {
+                    document.getElementById('seccionFechaVencimiento').style.display = 'block';
+                    document.getElementById('fechaVencimiento').value = factura.fecvencimiento || '';
+                }
+
+                // Cargar ítems
+                const tabla = $('#tablaItems').DataTable();
+                tabla.clear();
+
+                detalles.forEach((detalle, index) => {
+                    // Crear botón de eliminar
+                    const btnEliminar = '<button class="btn btn-danger btn-sm quitar-fila" title="Eliminar ítem"><i class="bi bi-trash"></i></button>';
+
+                    // Agregar a la tabla
+                    tabla.row.add([
+                        index + 1,
+                        detalle.descripcion,
+                        detalle.tiva + '%',
+                        detalle.cantidad,
+                        formatoNumero(detalle.preuni),
+                        formatoNumero(detalle.subtotal),
+                        btnEliminar
+                    ]).draw(false);
+                });
+
+                // Calcular total
+                calcularTotalFactura();
+
+                // Establecer modo edición
+                editMode = true;
+                idFacturaActual = id;
+
+                // Actualizar texto del botón de guardar
+                document.querySelector('#formFactura button[type="submit"]').innerHTML = '<i class="bi bi-save me-2"></i> Actualizar Factura';
+
+                alertify.success('Factura cargada para edición');
+
+            } catch (error) {
+                console.error('Error al cargar factura para edición:', error);
+                alertify.error('Error: ' + error.message);
+            }
+        }
+
+        // Inicializar todos los eventos de la página
+        function inicializarEventos() {
+            // Evento para formatear automáticamente el número de factura
+            const numFacturaInput = document.getElementById('numfactura');
+            numFacturaInput.addEventListener('input', function (e) {
+                // Eliminar todos los caracteres que no sean números
+                let value = this.value.replace(/[^0-9]/g, '');
+
+                // Aplicar formato XXX-XXX-YYYYY
+                if (value.length > 0) {
+                    // Formatea los primeros 3 dígitos
+                    if (value.length <= 3) {
+                        this.value = value;
+                    }
+                    // Formatea los primeros 6 dígitos (XXX-XXX)
+                    else if (value.length <= 6) {
+                        this.value = value.substring(0, 3) + '-' + value.substring(3);
+                    }
+                    // Formatea el número completo (XXX-XXX-YYYYY)
+                    else {
+                        this.value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+                    }
+                }
+            });
+
+            // Formatear precio unitario como moneda
+            const preUniInput = document.getElementById('preuni');
+            preUniInput.addEventListener('input', function (e) {
+                // Eliminar caracteres no numéricos
+                let value = this.value.replace(/[^0-9]/g, '');
+
+                // Formatear como número
+                if (value) {
+                    this.value = formatoNumero(parseInt(value));
+                } else {
+                    this.value = '';
+                }
+
+                // Calcular el subtotal
+                calcularSubtotal();
+            });
+
+            // Evento para calcular subtotal cuando cambia la cantidad
+            const cantidadInput = document.getElementById('cantidad');
+            cantidadInput.addEventListener('input', calcularSubtotal);
+
+            // Evento para el botón de agregar ítem
+            document.getElementById('btnAgregarItem').addEventListener('click', agregarItem);
+
+            // Evento para buscar cliente por RUC/CI (abrir modal)
+            document.getElementById('btnBuscarRuc').addEventListener('click', buscarClientePorRucCi);
+
+            // Evento para buscar cliente por nombre (abrir modal)
+            document.getElementById('btnBuscarNombre').addEventListener('click', abrirModalClientes);
+
+            // Evento para limpiar el formulario
+            document.getElementById('btnLimpiar').addEventListener('click', limpiarFormulario);
+
+            // Evento para validar y guardar la factura
+            document.getElementById('formFactura').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                if (this.checkValidity()) {
+                    guardarFactura();
+                } else {
+                    this.classList.add('was-validated');
+                    alertify.error('Por favor complete todos los campos requeridos');
+                }
+            });
+
+            // Eventos para el modal de clientes
+            document.getElementById('btnFiltrarClientes').addEventListener('click', filtrarClientes);
+            document.getElementById('btnLimpiarFiltros').addEventListener('click', limpiarFiltrosClientes);
+
+            // Eventos para filtrar al presionar Enter
+            document.getElementById('filtroRucCi').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    filtrarClientes();
+                }
+            });
+
+            document.getElementById('filtroNombre').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    filtrarClientes();
+                }
+            });
+
+            // Evento para actualizar subtotal cuando cambia el IVA
+            document.getElementById('iva').addEventListener('change', calcularSubtotal);
+
+            // Evento para mostrar/ocultar sección de vencimiento según condición
+            document.getElementById('condicion').addEventListener('change', function () {
+                const seccionFechaVencimiento = document.getElementById('seccionFechaVencimiento');
+                if (this.value === "CRÉDITO") {
+                    seccionFechaVencimiento.style.display = 'block';
+                    calcularFechaVencimiento();
+                } else {
+                    seccionFechaVencimiento.style.display = 'none';
+                }
+            });
+
+            // Evento para recalcular fecha de vencimiento al cambiar días de crédito o fecha factura
+            document.getElementById('fecha').addEventListener('change', calcularFechaVencimiento);
+
+            function calcularFechaVencimiento() {
+                const fechaFactura = new Date(document.getElementById('fecha').value);
+                const dias = 30; // O usa un valor fijo si lo necesitas
+                if (!isNaN(fechaFactura.getTime())) {
+                    const fechaVencimiento = new Date(fechaFactura);
+                    fechaVencimiento.setDate(fechaVencimiento.getDate() + dias);
+                    document.getElementById('fechaVencimiento').valueAsDate = fechaVencimiento;
+                }
+            }
+
+            // Atajos de teclado
+            document.addEventListener('keydown', function (event) {
+                // F2 = Buscar cliente
+                if (event.key === 'F2') {
+                    event.preventDefault();
+                    abrirModalClientes();
+                }
+                // F8 = Agregar ítem a la tabla
+                else if (event.key === 'F8') {
+                    event.preventDefault();
+                    agregarItem();
+                }
+                // F10 = Guardar factura
+                else if (event.key === 'F10') {
+                    event.preventDefault();
+                    document.getElementById('formFactura').dispatchEvent(new Event('submit'));
+                }
+                // ESC = Cerrar modal abierto
+                else if (event.key === 'Escape') {
+                    const modalClientes = bootstrap.Modal.getInstance(document.getElementById('modalClientes'));
+
+                    if (modalClientes && modalClientes._isShown) {
+                        modalClientes.hide();
+                    }
+                }
+            });
+        }
+
+        // Buscar cliente por RUC/CI y autocompletar
+        function buscarClientePorRucCi() {
+            const rucCi = document.getElementById('rucCi').value.trim();
+            if (!rucCi) {
+                alertify.error('Ingrese un RUC o CI');
+                return;
+            }
+            const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+            const cliente = clientes.find(c => (c.rucCi || '').toString().toLowerCase() === rucCi.toLowerCase());
+            if (cliente) {
+                document.getElementById('cliente').value = cliente.razonSocial || '';
+                document.getElementById('idcliente').value = cliente.idCliente || '';
+                alertify.success('Cliente encontrado');
+                // Enfocar en el siguiente campo
+                document.getElementById('numfactura').focus();
+            } else {
+                document.getElementById('cliente').value = '';
+                document.getElementById('idcliente').value = '';
+                alertify.error('No se encontró un cliente con ese RUC/CI');
+            }
+        }
+
+        // Agregar ítem a la tabla
+        function agregarItem() {
+            const descripcion = document.getElementById('descripcion').value.trim();
+            const cantidad = document.getElementById('cantidad').value;
+            const preuni = document.getElementById('preuni').value;
+            const subtotal = document.getElementById('subtotal').value;
+            const iva = document.getElementById('iva').value;
+
+            // Validar que todos los campos estén completos
+            if (!descripcion || !cantidad || !preuni || !subtotal || !iva) {
+                alertify.error('Debe completar todos los datos del ítem');
+                return;
+            }
+
+            // Obtener número de item
+            const tabla = $('#tablaItems').DataTable();
+            const numItems = tabla.rows().count() + 1;
+
+            // Crear botón de eliminar
+            const btnEliminar = '<button class="btn btn-danger btn-sm quitar-fila" title="Eliminar ítem"><i class="bi bi-trash"></i></button>';
+
+            // Agregar fila a la tabla
+            tabla.row.add([
+                numItems,
+                descripcion,
+                iva + '%',
+                cantidad,
+                preuni,
+                subtotal,
+                btnEliminar
+            ]).draw();
+
+            // Limpiar campos de ítem
+            document.getElementById('descripcion').value = '';
+            document.getElementById('cantidad').value = '1';
+            document.getElementById('preuni').value = '';
+            document.getElementById('subtotal').value = '';
+
+            // Calcular total
+            calcularTotalFactura();
+
+            // Enfocar en descripción para seguir agregando
+            document.getElementById('descripcion').focus();
+
+            alertify.success('Ítem agregado correctamente');
+        }
+
+        // Calcular subtotal (precio unitario * cantidad)
+        function calcularSubtotal() {
+            const cantidad = parseInt(document.getElementById('cantidad').value) || 0;
+            let preuni = document.getElementById('preuni').value;
+
+            // Convertir precio unitario a número quitando formato
+            preuni = preuni.replace(/\./g, '');
+            preuni = parseInt(preuni) || 0;
+
+            // Calcular subtotal
+            const subtotal = cantidad * preuni;
+
+            // Mostrar subtotal formateado
+            document.getElementById('subtotal').value = formatoNumero(subtotal);
+        }
+
+        // Calcular total de la factura
+        function calcularTotalFactura() {
+            const tabla = $('#tablaItems').DataTable();
+            let total = 0;
+
+            tabla.rows().every(function () {
+                const data = this.data();
+                // Obtener subtotal de la columna 5, quitando formato
+                let subtotal = data[5].replace(/\./g, '');
+                subtotal = subtotal.replace('₲', '').trim();
+                subtotal = parseInt(subtotal) || 0;
+                total += subtotal;
+            });
+
+            // Actualizar total en el footer
+            document.getElementById('totalFactura').textContent = '₲ ' + formatoNumero(total);
+        }
+
+        // Abrir modal de clientes
+        function abrirModalClientes() {
+            // Limpiar filtros previos
+            limpiarFiltrosClientes();
+
+            // Si hay un RUC/CI ingresado, usarlo como filtro inicial
+            const rucCi = document.getElementById('rucCi').value.trim();
+            if (rucCi) {
+                document.getElementById('filtroRucCi').value = rucCi;
+                filtrarClientes();
+            }
+
+            // Mostrar modal
+            const modalClientes = new bootstrap.Modal(document.getElementById('modalClientes'));
+            modalClientes.show();
+
+            // Enfocar en el campo de filtro
+            setTimeout(() => {
+                if (rucCi) {
+                    document.getElementById('filtroNombre').focus();
+                } else {
+                    document.getElementById('filtroRucCi').focus();
+                }
+            }, 500);
+        }
+
+        // Filtrar clientes según los criterios ingresados
+        function filtrarClientes() {
+            const filtroRucCi = document.getElementById('filtroRucCi').value.trim().toLowerCase();
+            const filtroNombre = document.getElementById('filtroNombre').value.trim().toLowerCase();
+
+            const tabla = $('#tablaClientes').DataTable();
+
+            // Resetear búsqueda previa
+            tabla.search('').columns().search('').draw();
+
+            // Aplicar filtros si hay alguno
+            if (filtroRucCi || filtroNombre) {
+                if (filtroRucCi) {
+                    tabla.column(1).search(filtroRucCi).draw();
+                }
+
+                if (filtroNombre) {
+                    tabla.column(2).search(filtroNombre).draw();
+                }
+
+                // Informar resultados
+                const numResultados = tabla.page.info().recordsDisplay;
+                if (numResultados === 0) {
+                    alertify.warning('No se encontraron clientes con los criterios especificados');
+                } else if (numResultados === 1) {
+                    alertify.success('Se encontró 1 cliente');
+                } else {
+                    alertify.success(`Se encontraron ${numResultados} clientes`);
+                }
+            } else {
+                alertify.warning('Ingrese al menos un criterio de búsqueda');
+            }
+        }
+
+        // Limpiar filtros de clientes
+        function limpiarFiltrosClientes() {
+            document.getElementById('filtroRucCi').value = '';
+            document.getElementById('filtroNombre').value = '';
+
+            // Restaurar tabla completa
+            const tabla = $('#tablaClientes').DataTable();
+            tabla.search('').columns().search('').draw();
+        }
+
+        // Seleccionar un cliente del modal
+        function seleccionarCliente(id, rucCi, nombre) {
+            document.getElementById('idcliente').value = id;
+            document.getElementById('rucCi').value = rucCi;
+            document.getElementById('cliente').value = nombre;
+
+            // Cerrar modal
+            const modalClientes = bootstrap.Modal.getInstance(document.getElementById('modalClientes'));
+            modalClientes.hide();
+
+            // Enfocar en el siguiente campo
+            document.getElementById('numfactura').focus();
+
+            // Notificar
+            alertify.success('Cliente seleccionado correctamente');
+        }
+
+        // Guardar factura
+        function guardarFactura() {
+            const tabla = $('#tablaItems').DataTable();
+
+            // Verificar que haya al menos un ítem
+            if (tabla.rows().count() === 0) {
+                alertify.error('Debe agregar al menos un ítem a la factura');
+                return;
+            }
+
+            setTimeout(() => {
+                try {
+                    // Recopilar datos para cabecera de factura
+                    let stexenta = 0;
+                    let stiva5 = 0;
+                    let stiva10 = 0;
+                    let totfactura = 0;
+
+                    // Verificar condición de pago y fecha de vencimiento
+                    const condicion = document.getElementById('condicion').value;
+                    let fecvencimiento = null;
+
+                    if (condicion === "CRÉDITO") {
+                        fecvencimiento = document.getElementById('fechaVencimiento').value;
+                        if (!fecvencimiento) {
+                            alertify.error('Debe ingresar una fecha de vencimiento para facturas a crédito');
+                            return;
+                        }
+                    }
+
+                    // Recopilar ítems
+                    const items = [];
+                    tabla.rows().every(function (index) {
+                        const data = this.data();
+                        const descripcion = data[1];
+                        const tiva = parseInt(data[2].replace('%', ''));
+                        const cantidad = parseInt(data[3]);
+                        const preuni = parseInt(data[4].replace(/\./g, ''));
+                        const subtotal = parseInt(data[5].replace(/\./g, ''));
+
+                        // Clasificar por IVA
+                        if (tiva === 0) {
+                            stexenta += subtotal;
+                        } else if (tiva === 5) {
+                            stiva5 += subtotal;
+                        } else if (tiva === 10) {
+                            stiva10 += subtotal;
+                        }
+
+                        totfactura += subtotal;
+
+                        items.push({
+                            idfacturadet: (index + 1),
+                            idfactura: idFacturaActual,
+                            item: (index + 1),
+                            descripcion: descripcion,
+                            cantidad: cantidad,
+                            preuni: preuni,
+                            tiva: tiva,
+                            subtotal: subtotal
+                        });
+                    });
+
+                    // Calcular liquidación de IVA
+                    const liqiva5 = Math.round(stiva5 / 21);  // 5% = dividir por 21
+                    const liqiva10 = Math.round(stiva10 / 11); // 10% = dividir por 11
+                    const totiva = liqiva5 + liqiva10;
+
+                    // Crear objeto de cabecera
+                    const cabecera = {
+                        idfactura: idFacturaActual,
+                        idcliente: parseInt(document.getElementById('idcliente').value),
+                        numfactura: document.getElementById('numfactura').value,
+                        fecfactura: document.getElementById('fecha').value,
+                        condicion: condicion,
+                        stexenta: stexenta,
+                        stiva5: stiva5,
+                        stiva10: stiva10,
+                        totfactura: totfactura,
+                        liqiva5: liqiva5,
+                        liqiva10: liqiva10,
+                        totiva: totiva,
+                        saldo: condicion === "CRÉDITO" ? totfactura : 0,
+                        anulado: "NO",
+                        fecvencimiento: fecvencimiento,
+                        idobra: document.getElementById('obra').value || null,
+                        concepto: document.getElementById('concepto').value || ""
+                    };
+
+                    // Obtener datos existentes
+                    let facturascabecera = JSON.parse(localStorage.getItem("facturascabecera")) || [];
+                    let facturasdetalle = JSON.parse(localStorage.getItem("facturasdetalle")) || [];
+
+                    if (editMode) {
+                        // Actualizar cabecera existente
+                        const index = facturascabecera.findIndex(c => c.idfactura === idFacturaActual);
+                        if (index !== -1) {
+                            // Actualizar cabecera
+                            facturascabecera[index] = cabecera;
+                        } else {
+                            // Si no existe, agregar nueva
+                            facturascabecera.push(cabecera);
+                        }
+
+                        // Eliminar detalles antiguos
+                        facturasdetalle = facturasdetalle.filter(d => d.idfactura !== idFacturaActual);
+                    } else {
+                        // Nueva factura
+                        facturascabecera.push(cabecera);
+                    }
+
+                    // Agregar detalles nuevos
+                    facturasdetalle = [...facturasdetalle, ...items];
+
+                    // Guardar en localStorage
+                    localStorage.setItem("facturascabecera", JSON.stringify(facturascabecera));
+                    localStorage.setItem("facturasdetalle", JSON.stringify(facturasdetalle));
+
+                    // Al guardar una nueva factura de cliente:
+                    let facturasclientes = JSON.parse(localStorage.getItem("facturasclientes")) || [];
+                    // Generar nuevo ID
+                    cabecera.idfactura = facturasclientes.length > 0
+                        ? Math.max(...facturasclientes.map(f => f.idfactura)) + 1
+                        : 1;
+                    facturasclientes.push(cabecera);
+                    localStorage.setItem("facturasclientes", JSON.stringify(facturasclientes));
+
+                    // Notificar éxito
+                    if (editMode) {
+                        alertify.success('Factura actualizada correctamente');
+                    } else {
+                        alertify.success('Factura guardada correctamente');
+                    }
+
+                    // Redirigir a la página de mantenimiento después de un breve periodo
+                    setTimeout(() => {
+                        window.location.href = "mantenimiento-facturas-clientes.html";
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Error al guardar factura:', error);
+                    alertify.error('Error al guardar factura: ' + error.message);
+                }
+            }, 1000);
+        }
+
+        // Limpiar formulario completo
+        function limpiarFormulario() {
+            try {
+                // Limpiar campos principales
+                document.getElementById('rucCi').value = '';
+                document.getElementById('cliente').value = '';
+                document.getElementById('idcliente').value = '';
+                document.getElementById('numfactura').value = '';
+                document.getElementById('fecha').valueAsDate = new Date();
+                document.getElementById('condicion').value = 'CONTADO';
+                document.getElementById('seccionFechaVencimiento').style.display = 'none';
+                document.getElementById('fechaVencimiento').value = '';
+                document.getElementById('obra').value = '';
+                document.getElementById('concepto').value = '';
+
+                // Limpiar campos de ítem
+                document.getElementById('descripcion').value = '';
+                document.getElementById('cantidad').value = '1';
+                document.getElementById('preuni').value = '';
+                document.getElementById('subtotal').value = '';
+                document.getElementById('iva').value = '10'; // Establecer un valor predeterminado
+
+                // Limpiar tabla
+                const tabla = $('#tablaItems').DataTable();
+                tabla.clear().draw();
+
+                // Actualizar total
+                document.getElementById('totalFactura').textContent = '₲ 0';
+
+                // Quitar validaciones
+                document.getElementById('formFactura').classList.remove('was-validated');
+
+                // Si estaba en modo edición, salir de ese modo y actualizar ID
+                if (editMode) {
+                    editMode = false;
+                    actualizarIdFacturaActual();
+                    document.querySelector('#formFactura button[type="submit"]').innerHTML = '<i class="bi bi-save me-2"></i> Guardar Factura';
+                }
+
+                // Enfocar en RUC/CI
+                document.getElementById('rucCi').focus();
+
+                alertify.message('Formulario limpiado');
+            } catch (error) {
+                console.error('Error al limpiar formulario:', error);
+                alertify.error('Error al limpiar formulario: ' + error.message);
+            }
+        }
+
+        // Formatear número sin símbolo de moneda
+        function formatoNumero(numero) {
+            return new Intl.NumberFormat('es-PY', {
+                maximumFractionDigits: 0
+            }).format(numero);
+        }
+
+        // Guardar factura cliente
+        function guardarFacturaCliente() {
+            // Obtener datos del formulario
+            const idCliente = parseInt(document.getElementById('idcliente').value);
+            const idObra = parseInt(document.getElementById('obra').value);
+            const numfactura = document.getElementById('numfactura').value.trim();
+            const fecha = document.getElementById('fecha').value;
+            const condicion = document.getElementById('condicion').value;
+            const total = parseInt(document.getElementById('totalFactura').textContent.replace(/\D/g, '')) || 0;
+            const iva = 0; // Calcula el IVA según tus ítems
+            const saldo = total;
+            const anulado = "NO";
+            const fechaVencimiento = (condicion === "CRÉDITO") ? document.getElementById('fechaVencimiento').value : null;
+
+            // Validar campos obligatorios
+            if (!idCliente || !idObra || !numfactura || !fecha) {
+                alertify.error("Completa todos los campos obligatorios");
+                return;
+            }
+
+            // Obtener el último ID de factura
+            let facturasclientes = JSON.parse(localStorage.getItem("facturasclientes")) || [];
+            let nuevoId = 1;
+            if (facturasclientes.length > 0) {
+                nuevoId = Math.max(...facturasclientes.map(f => f.idfactura)) + 1;
+            }
+
+            // Crear objeto factura
+            const nuevaFactura = {
+                idfactura: nuevoId,
+                idCliente: idCliente,
+                idObra: idObra,
+                numfactura: numfactura,
+                fecha: fecha,
+                condicion: condicion,
+                total: total,
+                iva: iva,
+                saldo: saldo,
+                anulado: anulado,
+                fechaVencimiento: fechaVencimiento
+            };
+
+            // Guardar en localStorage
+            facturasclientes.push(nuevaFactura);
+            localStorage.setItem("facturasclientes", JSON.stringify(facturasclientes));
+
+            alertify.success("Factura guardada correctamente");
+            // Limpia el formulario o redirige según tu flujo
+        }
+    </script>
+</body>
+
+</html>

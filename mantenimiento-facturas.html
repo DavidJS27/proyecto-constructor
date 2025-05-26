@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>Mantenimiento de Factura Proveedores </title>
+    <link rel="icon" href="img/2A_constructora_logo.png">
+
+    <!-- Estilos -->
+    <link href="menu/styles.css" rel="stylesheet" />
+
+    <!-- Frameworks -->
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="bt-icons/bootstrap-icons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="dt/datatables.min.css">
+    <link rel="stylesheet" href="dt/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="dt/buttons.dataTables.min.css">
+    <!-- AlertifyJS -->
+    <link rel="stylesheet" href="alert/alertify.min.css">
+    <link rel="stylesheet" href="alert/themes/default.min.css">
+    <script src="alert/alertify.min.js"></script>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- Barra de navegación superior -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="menu.html" onclick="cargarPagina('menu')">
+            <img src="img/2A_constructora_logo.png" alt="Logo" height="30" class="me-2">
+            2A Constructora
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i
+                class="bi bi-list"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <div class="me-3">
+            <button id="darkModeToggle" class="btn btn-link text-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="configuracion.html">Configuración</a></li>
+                    <li><a class="dropdown-item" href="#">Actividad</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Estructura del layout con menú lateral -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div id="principal" class="sb-sidenav-menu-heading">Principal</div>
+                        <a id="dashboard" class="nav-link" href="dashboard.html" onclick="cargarPagina('menu')">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div id="modulos" class="sb-sidenav-menu-heading">Módulos</div>
+
+                        <!-- Finanzas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFinanzas">
+                            <div class="sb-nav-link-icon"><i class="bi bi-currency-dollar"></i></div>
+                            Finanzas
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFinanzas" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="facturas-proveedores" class="nav-link collapsed" href="#"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseProveedores">
+                                    Facturas de Proveedores
+                                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseProveedores" data-bs-parent="#collapseFinanzas">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a href="facturas-proveedores.html" class="nav-link">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Registrar Compras
+                                        </a>
+                                        <a href="" class="nav-link">
+                                            <i class="bi bi-tools me-2"></i>Mantenimiento de Facturas
+                                        </a>
+                                    </nav>
+                                </div>
+
+                                <a id="facturas-clientes" class="nav-link" href="facturas-clientes.html"
+                                    onclick="cargarPagina('facturas-clientes')">Facturas de Clientes</a>
+                                <a id="pagos-proveedores" class="nav-link" href="pagos-proveedores.html"
+                                    onclick="cargarPagina('pagos-proveedores')">Pagos a Proveedores</a>
+                                <a id="cobros-clientes" class="nav-link" href="cobros-clientes.html">Cobros de
+                                    Clientes</a>
+                                <a id="adelantos-anticipos" class="nav-link" href="adelantos-anticipos.html"
+                                    onclick="cargarPagina('adelantos-anticipos')">Adelantos y Anticipos</a>
+                                <a id="costos-obra" class="nav-link" href="costos-obra.html"
+                                    onclick="cargarPagina('costos-obra')">Costos por Obra</a>
+                                <a id="reportes-financieros" class="nav-link" href="reportes-financieros.html"
+                                    onclick="cargarPagina('reportes-financieros')">Reportes Financieros</a>
+                            </nav>
+                        </div>
+
+                        <!-- Obras -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseObras">
+                            <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                            Obras
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseObras" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="mantenimiento-obras" class="nav-link" href="mantenimiento-obras.html"
+                                    onclick="cargarPagina('mantenimiento-obras')">Mantenimiento de Obras</a>
+                                <a id="asignar-materiales" class="nav-link" href="asignar-materiales.html"
+                                    onclick="cargarPagina('asignar-materiales')">Asignar Materiales</a>
+                                <a id="control-existencias" class="nav-link" href="control-existencias.html"
+                                    onclick="cargarPagina('control-existencias')">Control de Existencias</a>
+                                <a id="movimientos-materiales" class="nav-link" href="movimientos-materiales.html"
+                                    onclick="cargarPagina('movimientos-materiales')">Movimientos de Materiales</a>
+                                <a id="traslados-materiales" class="nav-link" href="traslado-materiales.html"
+                                    onclick="cargarPagina('traslados-materiales')">Traslados de Materiales</a>
+                                <a id="registro-perdidas" class="nav-link" href="registro-perdidas.html"
+                                    onclick="cargarPagina('registro-perdidas')">Registro de Pérdidas</a>
+                            </nav>
+                        </div>
+
+                        <div id="administracion" class="sb-sidenav-menu-heading">Administración</div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMantenimiento">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            Mantenimiento
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseMantenimiento" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="usuarios" class="nav-link" href="usuarios.html"
+                                    onclick="cargarPagina('usuarios')">Usuarios</a>
+                                <a id="clientes" class="nav-link" href="clientes.html"
+                                    onclick="cargarPagina('clientes')">Clientes</a>
+                                <a id="proveedores" class="nav-link" href="proveedores.html"
+                                    onclick="cargarPagina('proveedores')">Proveedores</a>
+                                <a id="materiales" class="nav-link" href="materiales.html"
+                                    onclick="cargarPagina('materiales')">Materiales</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado por:</div>
+                    <div id="nomUsuario"></div>
+                    <div class="small">Rol:</div>
+                    <div id="rol"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <div class="row mb-4 mt-4">
+                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                            <h2 class="mb-0"><i class="bi bi-tools me-2"></i>Mantenimiento de Facturas</h2>
+                            <a href="facturas-proveedores.html" class="btn btn-primary">
+                                <i class="bi bi-file-earmark-plus me-1"></i> Nueva Factura
+                            </a>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- Panel de filtros -->
+                    <div class="filter-panel">
+                        <div class="row">
+                            <div class="col-md-3 mb-2">
+                                <label for="filtroFechaDesde" class="form-label">Fecha desde:</label>
+                                <input type="date" id="filtroFechaDesde" class="form-control">
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="filtroFechaHasta" class="form-label">Fecha hasta:</label>
+                                <input type="date" id="filtroFechaHasta" class="form-control">
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="filtroProveedor" class="form-label">Proveedor:</label>
+                                <select id="filtroProveedor" class="form-select">
+                                    <option value="">Todos los proveedores</option>
+                                    <!-- Opciones se cargarán dinámicamente -->
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-2">
+                                <label for="filtroEstado" class="form-label">Estado:</label>
+                                <select id="filtroEstado" class="form-select">
+                                    <option value="">Todos los estados</option>
+                                    <option value="Pendiente">Pendiente</option>
+                                    <option value="Pagada">Pagada</option>
+                                    <option value="Anulada">Anulada</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12 text-end">
+                                <button id="btnAplicarFiltros" class="btn btn-primary">
+                                    <i class="bi bi-filter me-1"></i> Aplicar Filtros
+                                </button>
+                                <button id="btnLimpiarFiltros" class="btn btn-secondary ms-2">
+                                    <i class="bi bi-x-circle me-1"></i> Limpiar Filtros
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de facturas -->
+                    <div class="card shadow-sm fade-in">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="bi bi-table me-2"></i>Listado de Facturas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="tablaFacturas" class="display table table-striped table-hover"
+                                    style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fecha</th>
+                                            <th>Nº Factura</th>
+                                            <th>Proveedor</th>
+                                            <th>Condición</th>
+                                            <th>Total</th>
+                                            <th>IVA</th>
+                                            <th>Estado</th>
+                                            <th>Vencimiento</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Datos se cargarán dinámicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; 2A Constructora 2025</div>
+                        <div>
+                            <a href="#">Política de Privacidad</a>
+                            &middot;
+                            <a href="#">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal para Ver/Editar Factura -->
+    <div class="modal fade" id="modalDetalleFactura" tabindex="-1" aria-labelledby="modalDetalleFacturaLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="modalDetalleFacturaLabel">Detalle de Factura</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0">Información de la Factura</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">ID Factura:</label>
+                                            <p id="detalleIdFactura" class="border-bottom pb-2">-</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Fecha:</label>
+                                            <p id="detalleFecha" class="border-bottom pb-2">-</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Número de Factura:</label>
+                                            <p id="detalleNumFactura" class="border-bottom pb-2">-</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Condición:</label>
+                                            <p id="detalleCondicion" class="border-bottom pb-2">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0">Información del Proveedor</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">RUC:</label>
+                                            <p id="detalleRuc" class="border-bottom pb-2">-</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Nombre/Razón Social:</label>
+                                            <p id="detalleProveedor" class="border-bottom pb-2">-</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0">Artículos de la Factura</h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table id="tablaDetalleArticulos"
+                                            class="display table table-striped table-hover" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Código</th>
+                                                    <th>Descripción</th>
+                                                    <th>IVA</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Precio Unitario</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Se cargará dinámicamente -->
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="6" style="text-align: right;">Total:</th>
+                                                    <th id="detalleTotalFactura" style="text-align: right;">₲ 0</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0">Información de Liquidación IVA</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Gravado 5%:</label>
+                                            <p id="detalleGravado5" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Gravado 10%:</label>
+                                            <p id="detalleGravado10" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Exento:</label>
+                                            <p id="detalleExento" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">IVA 5%:</label>
+                                            <p id="detalleIva5" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">IVA 10%:</label>
+                                            <p id="detalleIva10" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form-label fw-bold">Total IVA:</label>
+                                            <p id="detalleTotalIva" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="m-0">Estado de la Factura</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Estado:</label>
+                                            <div id="contenedorEstado">
+                                                <p id="detalleEstado" class="border-bottom pb-2">-</p>
+                                            </div>
+                                            <div id="contenedorCambioEstado" class="mt-2" style="display: none;">
+                                                <select id="selectEstado" class="form-select">
+                                                    <option value="Pendiente">Pendiente</option>
+                                                    <option value="Pagada">Pagada</option>
+                                                    <option value="Anulada">Anulada</option>
+                                                </select>
+                                                <div class="d-flex mt-2">
+                                                    <button id="btnGuardarEstado"
+                                                        class="btn btn-primary btn-sm">Guardar</button>
+                                                    <button id="btnCancelarEstado"
+                                                        class="btn btn-secondary btn-sm ms-2">Cancelar</button>
+                                                </div>
+                                            </div>
+                                            <button id="btnEditarEstado" class="btn btn-link btn-sm text-primary p-0">
+                                                <i class="bi bi-pencil-fill"></i> Editar estado
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label fw-bold">Saldo Pendiente:</label>
+                                            <p id="detalleSaldo" class="border-bottom pb-2">₲ 0</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="seccionCondicionPago">
+                                            <label class="form-label fw-bold">Condición de Pago:</label>
+                                            <p id="detalleCondicionPago" class="border-bottom pb-2">-</p>
+                                        </div>
+                                        <div class="col-md-6 mb-3" id="seccionFechaVencimiento">
+                                            <label class="form-label fw-bold">Fecha de Vencimiento:</label>
+                                            <div id="contenedorFechaVencimiento">
+                                                <p id="detalleFechaVencimiento" class="border-bottom pb-2">-</p>
+                                            </div>
+                                            <div id="contenedorEditarFechaVencimiento" class="mt-2"
+                                                style="display: none;">
+                                                <input type="date" id="inputFechaVencimiento" class="form-control">
+                                                <div class="d-flex mt-2">
+                                                    <button id="btnGuardarFechaVencimiento"
+                                                        class="btn btn-primary btn-sm">Guardar</button>
+                                                    <button id="btnCancelarFechaVencimiento"
+                                                        class="btn btn-secondary btn-sm ms-2">Cancelar</button>
+                                                </div>
+                                            </div>
+                                            <button id="btnEditarFechaVencimiento"
+                                                class="btn btn-link btn-sm text-primary p-0">
+                                                <i class="bi bi-pencil-fill"></i> Editar fecha
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" id="btnEditarFactura" class="btn btn-warning">
+                        <i class="bi bi-pencil-fill me-1"></i> Editar
+                    </button>
+                    <button type="button" id="btnAnularFactura" class="btn btn-danger">
+                        <i class="bi bi-x-circle-fill me-1"></i> Anular
+                    </button>
+                    <button type="button" id="btnImprimirFactura" class="btn btn-info">
+                        <i class="bi bi-printer-fill me-1"></i> Imprimir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/roleMenuAccess.js"></script>
+    <script src="js/funcionesSistema.js"></script>
+    <script src="menu/scripts.js"></script>
+    <script src="js/cerrarSesion.js"></script>
+    <!-- Bootstrap -->
+    <script src="menu/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="dt/jquery-3.7.1.js"></script>
+    <script src="dt/datatables.min.js"></script>
+    <script src="dt/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="dt/dataTables.buttons.min.js"></script>
+    <script src="dt/buttons.print.min.js"></script>
+    <script src="dt/buttons.html5.min.js"></script>
+    <!-- DataTables JSZip y pdfmake para exportar -->
+    <script src="dt/jszip.min.js"></script>
+    <script src="dt/pdfmake.min.js"></script>
+    <script src="dt/vfs_fonts.js"></script>
+    <!-- DataTables Idioma Español -->
+    <script src="dt/es-ES.js"></script>
+
+    <script>
+        // Variables globales
+        let tablaFacturas;
+        let facturaSeleccionada = null;
+
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (!currentUser) {
+            window.location.href = 'error.html';
+        }
+
+        // Control de seguridad del usuario actual
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // Verificar si el usuario está autenticado
+                if (!currentUser) {
+                    alertify.error("Usuario no encontrado.");
+                    setTimeout(() => {
+                        window.location.href = "error.html";
+                    }, 2000);
+                    return;
+                } else {
+                    // Mostrar el nombre del usuario y rol en el menú
+                    document.getElementById('nomUsuario').innerText = `${currentUser.nombre} ${currentUser.apellido}`;
+                    document.getElementById("rol").textContent = formatearRol(currentUser.rol);
+                }
+
+                // Configurar tema oscuro
+                configurarTemaOscuro();
+
+                // Inicializar eventos
+                inicializarEventos();
+
+                // Inicializar tablas
+                inicializarTablas();
+
+                // Cargar datos
+                cargarDatos();
+
+            } catch (error) {
+                alertify.error("Error al inicializar la página: " + error.message);
+                console.error("Error completo:", error);
+            }
+        });
+
+        // Función para dark mode
+        function configurarTemaOscuro() {
+            // Verificar preferencia inicial
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+            }
+
+            // Toggle modo oscuro
+            document.getElementById('darkModeToggle').addEventListener('click', function () {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+                this.innerHTML = html.classList.contains('dark') ?
+                    '<i class="bi bi-sun"></i>' :
+                    '<i class="bi bi-moon-stars"></i>';
+            });
+
+            // Escuchar cambios en preferencias del sistema
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const html = document.documentElement;
+                if (e.matches) {
+                    html.classList.add('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+                } else {
+                    html.classList.remove('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-moon-stars"></i>';
+                }
+            });
+        }
+
+        // Formatear el nombre del rol para mostrar
+        function formatearRol(rol) {
+            switch (rol) {
+                case 'administrador': return 'Administrador';
+                case 'jefe_obra': return 'Jefe de Obra';
+                case 'gerente': return 'Gerente';
+                case 'obrero': return 'Obrero';
+                case 'contador': return 'Contador/Financiero';
+                case 'codificador': return 'Codificador';
+                default: return rol;
+            }
+        }
+
+        // Inicializar tablas
+        function inicializarTablas() {
+            // Tabla principal de facturas
+            tablaFacturas = $('#tablaFacturas').DataTable({
+                paging: true,
+                searching: true,
+                info: true,
+                ordering: true,
+                language: {
+                    "decimal": ",",
+                    "thousands": ".",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered": "(filtrado de _MAX_ registros en total)",
+                    "infoPostFix": "",
+                    "lengthMenu": "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron coincidencias",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending": ": activar para ordenar la columna ascendentemente",
+                        "sortDescending": ": activar para ordenar la columna descendentemente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "excel": "Excel",
+                        "pdf": "PDF",
+                        "print": "Imprimir"
+                    }
+                },
+                columnDefs: [
+                    { targets: 0, width: '5%' }, // ID
+                    { targets: 1, width: '8%' }, // Fecha
+                    { targets: 2, width: '10%' }, // Nº Factura
+                    { targets: 3, width: '20%' }, // Proveedor
+                    { targets: 4, width: '8%' }, // Condición
+                    { targets: 5, width: '10%', className: 'text-end' }, // Total
+                    { targets: 6, width: '8%', className: 'text-end' }, // IVA
+                    { targets: 7, width: '8%', className: 'text-center' }, // Estado
+                    { targets: 8, width: '8%', className: 'text-center' }, // Vencimiento
+                    { targets: 9, width: '15%', className: 'text-center' } // Acciones
+                ],
+                dom: '<"d-flex justify-content-between"Bf>rt<"d-flex justify-content-between"lip>',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-excel"></i> Excel',
+                        className: 'btn btn-sm btn-success',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                        },
+                        title: 'Listado de Facturas de Proveedores'
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="bi bi-file-pdf"></i> PDF',
+                        className: 'btn btn-sm btn-danger',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                        },
+                        title: 'Listado de Facturas de Proveedores'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="bi bi-printer"></i> Imprimir',
+                        className: 'btn btn-sm btn-info',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                        },
+                        title: 'Listado de Facturas de Proveedores'
+                    }
+                ],
+                lengthMenu: [10, 25, 50, 100],
+                pageLength: 10,
+                order: [[0, 'desc']]
+            });
+
+            // Tabla de detalle de artículos
+            $('#tablaDetalleArticulos').DataTable({
+                paging: false,
+                searching: false,
+                info: false,
+                ordering: false,
+                language: {
+                    "emptyTable": "No hay artículos en esta factura"
+                }
+            });
+
+            // Evento para los botones de acción
+            $('#tablaFacturas tbody').on('click', '.ver-factura', function () {
+                const id = parseInt($(this).data('id'));
+                verDetalleFactura(id);
+            });
+
+            $('#tablaFacturas tbody').on('click', '.editar-factura', function () {
+                const id = parseInt($(this).data('id'));
+                editarFactura(id);
+            });
+
+            $('#tablaFacturas tbody').on('click', '.anular-factura', function () {
+                const id = parseInt($(this).data('id'));
+                anularFactura(id);
+            });
+        }
+
+        // Inicializar eventos
+        function inicializarEventos() {
+            // Aplicar filtros
+            document.getElementById('btnAplicarFiltros').addEventListener('click', aplicarFiltros);
+
+            // Limpiar filtros
+            document.getElementById('btnLimpiarFiltros').addEventListener('click', limpiarFiltros);
+
+            // Eventos en el modal de detalle
+            document.getElementById('btnEditarFactura').addEventListener('click', function () {
+                if (facturaSeleccionada) {
+                    window.location.href = 'facturas-proveedores.html?edit=' + facturaSeleccionada;
+                }
+            });
+
+            document.getElementById('btnAnularFactura').addEventListener('click', function () {
+                if (facturaSeleccionada) {
+                    bootstrap.Modal.getInstance(document.getElementById('modalDetalleFactura')).hide();
+                    anularFactura(facturaSeleccionada);
+                }
+            });
+
+            document.getElementById('btnImprimirFactura').addEventListener('click', function () {
+                if (facturaSeleccionada) {
+                    imprimirFactura(facturaSeleccionada);
+                }
+            });
+
+            // Edición de estado
+            document.getElementById('btnEditarEstado').addEventListener('click', function () {
+                document.getElementById('contenedorEstado').style.display = 'none';
+                document.getElementById('contenedorCambioEstado').style.display = 'block';
+                document.getElementById('btnEditarEstado').style.display = 'none';
+            });
+
+            document.getElementById('btnGuardarEstado').addEventListener('click', function () {
+                cambiarEstadoFactura(document.getElementById('selectEstado').value);
+            });
+
+            document.getElementById('btnCancelarEstado').addEventListener('click', function () {
+                document.getElementById('contenedorEstado').style.display = 'block';
+                document.getElementById('contenedorCambioEstado').style.display = 'none';
+                document.getElementById('btnEditarEstado').style.display = 'inline-block';
+            });
+
+            // Edición de fecha de vencimiento
+            document.getElementById('btnEditarFechaVencimiento').addEventListener('click', function () {
+                document.getElementById('contenedorFechaVencimiento').style.display = 'none';
+                document.getElementById('contenedorEditarFechaVencimiento').style.display = 'block';
+                document.getElementById('btnEditarFechaVencimiento').style.display = 'none';
+            });
+
+            document.getElementById('btnGuardarFechaVencimiento').addEventListener('click', function () {
+                cambiarFechaVencimiento(document.getElementById('inputFechaVencimiento').value);
+            });
+
+            document.getElementById('btnCancelarFechaVencimiento').addEventListener('click', function () {
+                document.getElementById('contenedorFechaVencimiento').style.display = 'block';
+                document.getElementById('contenedorEditarFechaVencimiento').style.display = 'none';
+                document.getElementById('btnEditarFechaVencimiento').style.display = 'inline-block';
+            });
+        }
+
+        // Cargar todos los datos
+        function cargarDatos() {
+            cargarFacturas();
+            cargarProveedoresSelect();
+        }
+
+        // Cargar facturas en la tabla principal
+        function cargarFacturas() {
+
+            setTimeout(() => {
+                try {
+                    // Obtener datos de facturas
+                    const comprascabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                    const comprasdetalle = JSON.parse(localStorage.getItem("comprasdetalle")) || [];
+                    const proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+                    // Limpiar tabla
+                    tablaFacturas.clear();
+
+                    // Si no hay facturas, mostrar mensaje
+                    if (comprascabecera.length === 0) {
+                        alertify.warning("No hay facturas registradas en el sistema");
+                        return;
+                    }
+
+                    // Agregar facturas a la tabla
+                    comprascabecera.forEach(factura => {
+                        // Buscar proveedor para obtener nombre
+                        const proveedor = proveedores.find(p => p.idProveedor === factura.idproveedor);
+                        const nombreProveedor = proveedor ? proveedor.razonsocial : "Proveedor desconocido";
+
+                        // Formatear fecha
+                        const fecha = new Date(factura.feccompra);
+                        const fechaFormateada = fecha.toLocaleDateString('es-PY', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
+                        });
+
+                        // Determinar estado
+                        let estado = '';
+                        let claseEstado = '';
+
+                        if (factura.anulado === "SI") {
+                            estado = 'Anulada';
+                            claseEstado = 'danger';
+                        } else if (factura.saldo <= 0) {
+                            estado = 'Pagada';
+                            claseEstado = 'success';
+                        } else {
+                            estado = 'Pendiente';
+                            claseEstado = 'warning';
+                        }
+
+                        // Formatear fecha de vencimiento
+                        let vencimiento = '-';
+                        if (factura.condicion === "CRÉDITO" && factura.fecvencimiento) {
+                            const fechaVenc = new Date(factura.fecvencimiento);
+                            vencimiento = fechaVenc.toLocaleDateString('es-PY', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                            });
+                        }
+
+                        // Agregar botones de acción
+                        const acciones = `
+                            <button class="btn btn-sm btn-info ver-factura" data-id="${factura.idcompra}" title="Ver detalles">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-warning editar-factura ms-1" data-id="${factura.idcompra}" title="Editar" ${(factura.anulado === "SI") ? 'disabled' : ''}>
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger anular-factura ms-1" data-id="${factura.idcompra}" title="Anular" ${(factura.anulado === "SI") ? 'disabled' : ''}>
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                        `;
+
+                        // Agregar fila a la tabla
+                        tablaFacturas.row.add([
+                            factura.idcompra,
+                            fechaFormateada,
+                            factura.numfactura,
+                            nombreProveedor,
+                            factura.condicion,
+                            '₲ ' + formatoNumero(factura.totcompra),
+                            '₲ ' + formatoNumero(factura.totiva),
+                            `<span class="badge bg-${claseEstado}">${estado}</span>`,
+                            vencimiento,
+                            acciones
+                        ]).draw(false);
+                    });
+
+                    alertify.success(`Se cargaron ${comprascabecera.length} facturas`);
+
+                } catch (error) {
+                    alertify.error("Error al cargar facturas: " + error.message);
+                    console.error("Error completo:", error);
+                }
+            }, 500);
+        }
+
+        // Cargar proveedores en el select
+        function cargarProveedoresSelect() {
+            try {
+                const proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+                const selectProveedor = document.getElementById('filtroProveedor');
+
+                // Limpiar opciones existentes excepto la primera
+                while (selectProveedor.options.length > 1) {
+                    selectProveedor.remove(1);
+                }
+
+                // Agregar proveedores al select
+                proveedores.forEach(proveedor => {
+                    const option = document.createElement('option');
+                    option.value = proveedor.idProveedor;
+                    option.textContent = proveedor.razonsocial;
+                    selectProveedor.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error("Error al cargar proveedores en select:", error);
+            }
+        }
+        // Aplicar filtros
+        function aplicarFiltros() {
+
+            setTimeout(() => {
+                try {
+                    const fechaDesde = document.getElementById('filtroFechaDesde').value;
+                    const fechaHasta = document.getElementById('filtroFechaHasta').value;
+                    const proveedor = document.getElementById('filtroProveedor').value;
+                    const estado = document.getElementById('filtroEstado').value;
+
+                    // Reset de filtros
+                    tablaFacturas.search('').columns().search('').draw();
+
+                    // Filtrar por fecha
+                    if (fechaDesde || fechaHasta) {
+                        $.fn.dataTable.ext.search.push(
+                            function (settings, data, dataIndex) {
+                                if (settings.nTable.id !== 'tablaFacturas') {
+                                    return true; // Solo aplicar a la tabla de facturas
+                                }
+
+                                const fechaFactura = convertirFechaADate(data[1]); // La fecha está en la columna 1
+
+                                if (fechaDesde && fechaHasta) {
+                                    return fechaFactura >= new Date(fechaDesde) && fechaFactura <= new Date(fechaHasta);
+                                } else if (fechaDesde) {
+                                    return fechaFactura >= new Date(fechaDesde);
+                                } else if (fechaHasta) {
+                                    return fechaFactura <= new Date(fechaHasta);
+                                }
+                                return true;
+                            }
+                        );
+                    }
+
+                    // Filtrar por proveedor
+                    if (proveedor) {
+                        // El nombre del proveedor está en la columna 3
+                        const proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+                        const proveedorObj = proveedores.find(p => p.idProveedor == proveedor);
+                        if (proveedorObj) {
+                            tablaFacturas.column(3).search(proveedorObj.razonsocial).draw();
+                        }
+                    }
+
+                    // Filtrar por estado
+                    if (estado) {
+                        tablaFacturas.column(7).search(estado).draw();
+                    }
+
+                    // Dibujar la tabla con los filtros aplicados
+                    tablaFacturas.draw();
+
+                    // Si se aplicó filtro por fecha, eliminar el filtro después de usarlo
+                    if (fechaDesde || fechaHasta) {
+                        $.fn.dataTable.ext.search.pop();
+                    }
+
+                    // Informar al usuario
+                    alertify.success("Filtros aplicados con éxito");
+
+                } catch (error) {
+                    console.error("Error al aplicar filtros:", error);
+                    alertify.error("Error al aplicar filtros: " + error.message);
+                }
+            }, 300);
+        }
+
+        // Convertir fecha en formato dd/mm/yyyy a objeto Date
+        function convertirFechaADate(fechaStr) {
+            try {
+                const partes = fechaStr.split('/');
+                return new Date(partes[2], partes[1] - 1, partes[0]);
+            } catch (error) {
+                console.error("Error al convertir fecha:", error);
+                return new Date(0); // Fecha inválida
+            }
+        }
+
+        // Limpiar filtros
+        function limpiarFiltros() {
+            try {
+                // Limpiar campos de filtro
+                document.getElementById('filtroFechaDesde').value = '';
+                document.getElementById('filtroFechaHasta').value = '';
+                document.getElementById('filtroProveedor').value = '';
+                document.getElementById('filtroEstado').value = '';
+
+                // Quitar filtros de la tabla
+                tablaFacturas.search('').columns().search('').draw();
+
+                // Eliminar cualquier filtro de búsqueda personalizado
+                $.fn.dataTable.ext.search.pop();
+
+                // Redibujar la tabla
+                tablaFacturas.draw();
+
+                alertify.success("Filtros limpiados");
+
+            } catch (error) {
+                console.error("Error al limpiar filtros:", error);
+                alertify.error("Error al limpiar filtros: " + error.message);
+            }
+        }
+
+        // Ver detalle de factura
+        function verDetalleFactura(id) {
+
+            setTimeout(() => {
+                try {
+                    // Buscar la factura por ID
+                    const comprascabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                    const comprasdetalle = JSON.parse(localStorage.getItem("comprasdetalle")) || [];
+                    const materiales = JSON.parse(localStorage.getItem("materiales")) || [];
+                    const proveedores = JSON.parse(localStorage.getItem("proveedores")) || [];
+
+                    const factura = comprascabecera.find(f => f.idcompra === id);
+
+                    if (!factura) {
+                        alertify.error('No se encontró la factura con ID: ' + id);
+                        return;
+                    }
+
+                    // Guardar referencia a la factura seleccionada
+                    facturaSeleccionada = id;
+
+                    // Buscar detalles de la factura
+                    const detalles = comprasdetalle.filter(d => d.idcompra === id);
+
+                    // Buscar proveedor
+                    const proveedor = proveedores.find(p => p.idProveedor === factura.idproveedor);
+
+                    // Formatear fecha
+                    const fecha = new Date(factura.feccompra);
+                    const fechaFormateada = fecha.toLocaleDateString('es-PY', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    // Llenar datos del modal
+                    document.getElementById('detalleIdFactura').textContent = factura.idcompra;
+                    document.getElementById('detalleFecha').textContent = fechaFormateada;
+                    document.getElementById('detalleNumFactura').textContent = factura.numfactura;
+                    document.getElementById('detalleCondicion').textContent = factura.condicion;
+                    document.getElementById('detalleRuc').textContent = proveedor ? proveedor.ruc : "No disponible";
+                    document.getElementById('detalleProveedor').textContent = proveedor ? proveedor.razonsocial : "Proveedor desconocido";
+
+                    // Mostrar condición de pago
+                    document.getElementById('detalleCondicionPago').textContent = factura.condicion;
+
+                    // Mostrar fecha de vencimiento si es a crédito
+                    const seccionFechaVencimiento = document.getElementById('seccionFechaVencimiento');
+                    if (factura.condicion === "CRÉDITO") {
+                        seccionFechaVencimiento.style.display = 'block';
+
+                        // Formatear fecha de vencimiento
+                        let vencimientoFormateado = '-';
+                        if (factura.fecvencimiento) {
+                            const fechaVenc = new Date(factura.fecvencimiento);
+                            vencimientoFormateado = fechaVenc.toLocaleDateString('es-PY', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric'
+                            });
+                        }
+
+                        document.getElementById('detalleFechaVencimiento').textContent = vencimientoFormateado;
+                        document.getElementById('inputFechaVencimiento').value = factura.fecvencimiento || '';
+                        document.getElementById('btnEditarFechaVencimiento').style.display = factura.anulado === "SI" ? 'none' : 'inline-block';
+                    } else {
+                        seccionFechaVencimiento.style.display = 'none';
+                    }
+
+                    // Cargar tabla de detalles
+                    const tabla = $('#tablaDetalleArticulos').DataTable();
+                    tabla.clear();
+
+                    // Recorrer detalles y agregarlos a la tabla
+                    detalles.forEach(detalle => {
+                        // Buscar material para obtener descripción (comparando como string para evitar problemas de tipo)
+                        const material = materiales.find(m => String(m.idMaterial) === String(detalle.idMaterial));
+                        const descripcion = material ? material.descripcion : "Material no encontrado";
+
+                        tabla.row.add([
+                            detalle.item,
+                            detalle.idMaterial, // Aquí normalmente pondríamos el código de barras
+                            descripcion,
+                            detalle.tiva + '%',
+                            detalle.cantidad,
+                            '₲ ' + formatoNumero(detalle.preuni),
+                            '₲ ' + formatoNumero(detalle.subtotal)
+                        ]).draw(false);
+                    });
+
+                    // Mostrar totales y liquidación IVA
+                    document.getElementById('detalleTotalFactura').textContent = '₲ ' + formatoNumero(factura.totcompra);
+                    document.getElementById('detalleGravado5').textContent = '₲ ' + formatoNumero(factura.stiva5);
+                    document.getElementById('detalleGravado10').textContent = '₲ ' + formatoNumero(factura.stiva10);
+                    document.getElementById('detalleExento').textContent = '₲ ' + formatoNumero(factura.stexenta);
+                    document.getElementById('detalleIva5').textContent = '₲ ' + formatoNumero(factura.liqiva5);
+                    document.getElementById('detalleIva10').textContent = '₲ ' + formatoNumero(factura.liqiva10);
+                    document.getElementById('detalleTotalIva').textContent = '₲ ' + formatoNumero(factura.totiva);
+
+                    // Mostrar estado de la factura
+                    let estadoTexto = '';
+                    let estadoClase = '';
+
+                    if (factura.anulado === "SI") {
+                        estadoTexto = 'Anulada';
+                        estadoClase = 'danger';
+                    } else if (factura.saldo <= 0) {
+                        estadoTexto = 'Pagada';
+                        estadoClase = 'success';
+                    } else {
+                        estadoTexto = 'Pendiente';
+                        estadoClase = 'warning';
+                    }
+
+                    document.getElementById('detalleEstado').innerHTML = `<span class="badge bg-${estadoClase}">${estadoTexto}</span>`;
+                    document.getElementById('detalleSaldo').textContent = '₲ ' + formatoNumero(factura.saldo);
+
+                    // Configurar selección de estado
+                    document.getElementById('selectEstado').value = factura.anulado === "SI" ? "Anulada" : (factura.saldo <= 0 ? "Pagada" : "Pendiente");
+                    document.getElementById('btnEditarEstado').style.display = factura.anulado === "SI" ? 'none' : 'inline-block';
+
+                    // Asegurarse de que los campos de edición estén ocultos inicialmente
+                    document.getElementById('contenedorEstado').style.display = 'block';
+                    document.getElementById('contenedorCambioEstado').style.display = 'none';
+                    document.getElementById('contenedorFechaVencimiento').style.display = 'block';
+                    document.getElementById('contenedorEditarFechaVencimiento').style.display = 'none';
+
+                    // Configurar botones según el estado
+                    const btnAnular = document.getElementById('btnAnularFactura');
+                    const btnEditar = document.getElementById('btnEditarFactura');
+
+                    if (factura.anulado === "SI") {
+                        btnAnular.disabled = true;
+                        btnAnular.classList.add('opacity-50');
+                        btnEditar.disabled = true;
+                        btnEditar.classList.add('opacity-50');
+                    } else {
+                        btnAnular.disabled = false;
+                        btnAnular.classList.remove('opacity-50');
+                        btnEditar.disabled = false;
+                        btnEditar.classList.remove('opacity-50');
+                    }
+
+                    // Mostrar el modal
+                    const modal = new bootstrap.Modal(document.getElementById('modalDetalleFactura'));
+                    modal.show();
+
+                } catch (error) {
+                    console.error('Error al cargar detalle de factura:', error);
+                    alertify.error('Error al cargar detalle de factura: ' + error.message);
+                }
+            }, 500);
+        }
+
+        // Editar factura
+        function editarFactura(id) {
+            try {
+                window.location.href = 'facturas-proveedores.html?edit=' + id;
+            } catch (error) {
+                console.error('Error al editar factura:', error);
+                alertify.error('Error al editar factura: ' + error.message);
+            }
+        }
+
+        // Anular factura
+        function anularFactura(id) {
+            try {
+                alertify.confirm(
+                    'Anular Factura',
+                    '¿Está seguro que desea anular esta factura? Esta acción no se puede deshacer.',
+                    function () {
+
+                        setTimeout(() => {
+                            try {
+                                // Buscar la factura por ID
+                                const comprascabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                                const comprasdetalle = JSON.parse(localStorage.getItem("comprasdetalle")) || [];
+                                const facturaIndex = comprascabecera.findIndex(f => f.idcompra === id);
+
+                                if (facturaIndex === -1) {
+                                    alertify.error('No se encontró la factura con ID: ' + id);
+                                    return;
+                                }
+
+                                // Verificar si ya está anulada
+                                if (comprascabecera[facturaIndex].anulado === "SI") {
+                                    alertify.error('Esta factura ya está anulada');
+                                    return;
+                                }
+
+                                // Anular factura
+                                comprascabecera[facturaIndex].anulado = "SI";
+
+                                // Revertir stock
+                                const detalles = comprasdetalle.filter(d => d.idcompra === id);
+                                revertirStockMateriales(detalles);
+
+                                // Guardar cambios
+                                localStorage.setItem("comprascabecera", JSON.stringify(comprascabecera));
+
+                                // Actualizar tabla
+                                cargarFacturas();
+
+                                alertify.success('Factura anulada correctamente');
+                            } catch (error) {
+                                console.error('Error al anular factura:', error);
+                                alertify.error('Error al anular factura: ' + error.message);
+                            }
+                        }, 500);
+                    },
+                    function () {
+                        alertify.message('Operación cancelada');
+                    }
+                ).set('labels', { ok: 'Anular', cancel: 'Cancelar' });
+            } catch (error) {
+                console.error('Error al anular factura:', error);
+                alertify.error('Error al anular factura: ' + error.message);
+            }
+        }
+
+        // Revertir stock de materiales al anular factura
+        function revertirStockMateriales(detalles) {
+            try {
+                const materiales = JSON.parse(localStorage.getItem("materiales")) || [];
+                let materialesActualizados = false;
+
+                // Recorrer detalles y actualizar stock
+                detalles.forEach(detalle => {
+                    const materialIndex = materiales.findIndex(m => m.idMaterial === detalle.idMaterial);
+
+                    if (materialIndex !== -1) {
+                        // Restar la cantidad del stock
+                        const stockActual = parseInt(materiales[materialIndex].stock) || 0;
+                        materiales[materialIndex].stock = stockActual - parseInt(detalle.cantidad);
+                        materialesActualizados = true;
+                        console.log(`Stock actualizado para material ${detalle.idMaterial}: ${materiales[materialIndex].stock}`);
+                    }
+                });
+
+                // Guardar materiales actualizados
+                if (materialesActualizados) {
+                    localStorage.setItem("materiales", JSON.stringify(materiales));
+                    console.log('Stock de materiales revertido correctamente');
+                }
+
+            } catch (error) {
+                console.error('Error al revertir stock de materiales:', error);
+                throw new Error('Error al revertir stock de materiales: ' + error.message);
+            }
+        }
+
+        // Cambiar estado de factura (pagada/pendiente/anulada)
+        function cambiarEstadoFactura(nuevoEstado) {
+            if (!facturaSeleccionada) return;
+
+            setTimeout(() => {
+                try {
+                    // Buscar la factura por ID
+                    const comprascabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                    const facturaIndex = comprascabecera.findIndex(f => f.idcompra === facturaSeleccionada);
+
+                    if (facturaIndex === -1) {
+                        alertify.error('No se encontró la factura con ID: ' + facturaSeleccionada);
+                        return;
+                    }
+
+                    const factura = comprascabecera[facturaIndex];
+
+                    // Verificar si está anulada
+                    if (factura.anulado === "SI" && nuevoEstado !== "Anulada") {
+                        alertify.error('No se puede cambiar el estado de una factura anulada');
+                        return;
+                    }
+
+                    // Si el nuevo estado es "Anulada", usar la función de anular factura
+                    if (nuevoEstado === "Anulada") {
+                        // Cerrar modal y mostrar confirmación de anulación
+                        document.getElementById('contenedorEstado').style.display = 'block';
+                        document.getElementById('contenedorCambioEstado').style.display = 'none';
+                        document.getElementById('btnEditarEstado').style.display = 'inline-block';
+
+                        bootstrap.Modal.getInstance(document.getElementById('modalDetalleFactura')).hide();
+                        anularFactura(facturaSeleccionada);
+                        return;
+                    }
+
+                    // Cambiar saldo según el estado seleccionado
+                    if (nuevoEstado === "Pagada") {
+                        factura.saldo = 0;
+                    } else if (nuevoEstado === "Pendiente") {
+                        factura.saldo = factura.totcompra;
+                    }
+
+                    // Guardar cambios
+                    localStorage.setItem("comprascabecera", JSON.stringify(comprascabecera));
+
+                    // Actualizar vista en el modal
+                    let estadoTexto = '';
+                    let estadoClase = '';
+
+                    if (factura.anulado === "SI") {
+                        estadoTexto = 'Anulada';
+                        estadoClase = 'danger';
+                    } else if (factura.saldo <= 0) {
+                        estadoTexto = 'Pagada';
+                        estadoClase = 'success';
+                    } else {
+                        estadoTexto = 'Pendiente';
+                        estadoClase = 'warning';
+                    }
+
+                    document.getElementById('detalleEstado').innerHTML = `<span class="badge bg-${estadoClase}">${estadoTexto}</span>`;
+                    document.getElementById('detalleSaldo').textContent = '₲ ' + formatoNumero(factura.saldo);
+
+                    // Ocultar editor y mostrar vista normal
+                    document.getElementById('contenedorEstado').style.display = 'block';
+                    document.getElementById('contenedorCambioEstado').style.display = 'none';
+                    document.getElementById('btnEditarEstado').style.display = 'inline-block';
+
+                    // Actualizar tabla y estadísticas
+                    cargarFacturas();
+
+                    alertify.success(`Factura marcada como ${nuevoEstado}`);
+
+                } catch (error) {
+                    console.error('Error al cambiar estado de factura:', error);
+                    alertify.error('Error al cambiar estado de factura: ' + error.message);
+                }
+            }, 500);
+        }
+
+        // Cambiar fecha de vencimiento
+        function cambiarFechaVencimiento(nuevaFecha) {
+            if (!facturaSeleccionada) return;
+
+            if (!nuevaFecha) {
+                alertify.error('Debe seleccionar una fecha válida');
+                return;
+            }
+
+            setTimeout(() => {
+                try {
+                    // Buscar la factura por ID
+                    const comprascabecera = JSON.parse(localStorage.getItem("comprascabecera")) || [];
+                    const facturaIndex = comprascabecera.findIndex(f => f.idcompra === facturaSeleccionada);
+
+                    if (facturaIndex === -1) {
+                        alertify.error('No se encontró la factura con ID: ' + facturaSeleccionada);
+                        return;
+                    }
+
+                    const factura = comprascabecera[facturaIndex];
+
+                    // Verificar si está anulada
+                    if (factura.anulado === "SI") {
+                        alertify.error('No se puede cambiar la fecha de vencimiento de una factura anulada');
+                        return;
+                    }
+
+                    // Verificar si es a crédito
+                    if (factura.condicion !== "CRÉDITO") {
+                        alertify.error('Solo se puede establecer fecha de vencimiento en facturas a crédito');
+                        return;
+                    }
+
+                    // Guardar nueva fecha
+                    factura.fecvencimiento = nuevaFecha;
+                    localStorage.setItem("comprascabecera", JSON.stringify(comprascabecera));
+
+                    // Formatear fecha para mostrar
+                    const fechaObj = new Date(nuevaFecha);
+                    const fechaFormateada = fechaObj.toLocaleDateString('es-PY', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    });
+
+                    // Actualizar vista
+                    document.getElementById('detalleFechaVencimiento').textContent = fechaFormateada;
+
+                    // Ocultar editor y mostrar vista normal
+                    document.getElementById('contenedorFechaVencimiento').style.display = 'block';
+                    document.getElementById('contenedorEditarFechaVencimiento').style.display = 'none';
+                    document.getElementById('btnEditarFechaVencimiento').style.display = 'inline-block';
+
+                    // Actualizar tabla
+                    cargarFacturas();
+
+                    alertify.success('Fecha de vencimiento actualizada correctamente');
+
+                } catch (error) {
+                    console.error('Error al cambiar fecha de vencimiento:', error);
+                    alertify.error('Error al cambiar fecha de vencimiento: ' + error.message);
+                }
+            }, 300);
+        }
+
+        // Formatear número como moneda
+        function formatoNumero(numero) {
+            return new Intl.NumberFormat('es-PY', {
+                maximumFractionDigits: 0
+            }).format(numero);
+        }
+    </script>
+</body>
+
+</html>

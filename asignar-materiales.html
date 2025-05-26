@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <title>GMTL² - Asignar Materiales</title>
+    <link rel="icon" href="img/2A_constructora_logo.png">
+    
+    <!-- Estilos -->
+    <link href="menu/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/usuario-styles.css">
+    
+    <!-- Frameworks -->
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="bt-icons/bootstrap-icons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="dt/datatables.min.css">
+    <link rel="stylesheet" href="dt/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="dt/buttons.dataTables.min.css">
+    <!-- AlertifyJS -->
+    <link rel="stylesheet" href="alert/alertify.min.css">
+    <link rel="stylesheet" href="alert/themes/default.min.css">
+    <script src="alert/alertify.min.js"></script>
+</head>
+<body class="sb-nav-fixed">
+    <!-- Barra de navegación superior -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand ps-3" href="menu.html" onclick="cargarPagina('menu')">
+            <img src="img/2A_constructora_logo.png" alt="Logo" height="30" class="me-2">
+            2A Constructora
+        </a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#"><i class="bi bi-list"></i></button>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+        <div class="me-3">
+            <button id="darkModeToggle" class="btn btn-link text-light"><i class="bi bi-moon-stars"></i></button>
+        </div>
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="configuracion.html">Configuración</a></li>
+                    <li><a class="dropdown-item" href="#">Actividad</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar sesión</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Estructura del layout con menú lateral -->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div id="principal" class="sb-sidenav-menu-heading">Principal</div>
+                        <a id="dashboard" class="nav-link" href="dashboard.html" onclick="cargarPagina('menu')">
+                            <div class="sb-nav-link-icon"><i class="bi bi-speedometer"></i></div>
+                            Dashboard
+                        </a>
+
+                        <div id="modulos" class="sb-sidenav-menu-heading">Módulos</div>
+
+                        <!-- Finanzas -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFinanzas">
+                            <div class="sb-nav-link-icon"><i class="bi bi-currency-dollar"></i></div>
+                            Finanzas
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFinanzas" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="facturas-proveedores" class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProveedores">
+                                    Facturas de Proveedores
+                                    <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseProveedores" data-bs-parent="#collapseFinanzas">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a href="facturas-proveedores.html" class="nav-link">
+                                            <i class="bi bi-file-earmark-text me-2"></i>Registrar Compras
+                                        </a>
+                                        <a href="" class="nav-link">
+                                            <i class="bi bi-tools me-2"></i>Mantenimiento de Facturas
+                                        </a>
+                                    </nav>
+                                </div>
+                                
+                                <a id="facturas-clientes" class="nav-link" href="facturas-clientes.html" onclick="cargarPagina('facturas-clientes')">Facturas de Clientes</a>
+                                <a id="pagos-proveedores" class="nav-link" href="pagos-proveedores.html" onclick="cargarPagina('pagos-proveedores')">Pagos a Proveedores</a>
+                                <a id="cobros-clientes" class="nav-link" href="cobros-clientes.html">Cobros de Clientes</a>
+                                <a id="adelantos-anticipos" class="nav-link" href="adelantos-anticipos.html" onclick="cargarPagina('adelantos-anticipos')">Adelantos y Anticipos</a>
+                                <a id="costos-obra" class="nav-link" href="costos-obra.html" onclick="cargarPagina('costos-obra')">Costos por Obra</a>
+                                <a id="reportes-financieros" class="nav-link" href="reportes-financieros.html" onclick="cargarPagina('reportes-financieros')">Reportes Financieros</a>
+                            </nav>
+                        </div>
+
+                        <!-- Obras -->
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseObras">
+                            <div class="sb-nav-link-icon"><i class="bi bi-building"></i></div>
+                            Obras
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseObras" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="mantenimiento-obras" class="nav-link" href="mantenimiento-obras.html" onclick="cargarPagina('mantenimiento-obras')">Mantenimiento de Obras</a>
+                                <a id="asignar-materiales" class="nav-link" href="asignar-materiales.html" onclick="cargarPagina('asignar-materiales')">Asignar Materiales</a>
+                                <a id="control-existencias" class="nav-link" href="control-existencias.html" onclick="cargarPagina('control-existencias')">Control de Existencias</a>
+                                <a id="movimientos-materiales" class="nav-link" href="movimientos-materiales.html" onclick="cargarPagina('movimientos-materiales')">Movimientos de Materiales</a>
+                                <a id="traslados-materiales" class="nav-link" href="traslado-materiales.html" onclick="cargarPagina('traslados-materiales')">Traslados de Materiales</a>
+                                <a id="registro-perdidas" class="nav-link" href="registro-perdidas.html" onclick="cargarPagina('registro-perdidas')">Registro de Pérdidas</a>
+                            </nav>
+                        </div>
+
+                        <div id="administracion" class="sb-sidenav-menu-heading">Administración</div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseMantenimiento">
+                            <div class="sb-nav-link-icon"><i class="bi bi-gear"></i></div>
+                            Mantenimiento
+                            <div class="sb-sidenav-collapse-arrow"><i class="bi bi-chevron-down"></i></div>
+                        </a>
+                        <div class="collapse show" id="collapseMantenimiento" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a id="usuarios" class="nav-link" href="usuarios.html" onclick="cargarPagina('usuarios')">Usuarios</a>
+                                <a id="clientes" class="nav-link" href="clientes.html" onclick="cargarPagina('clientes')">Clientes</a>
+                                <a id="proveedores" class="nav-link" href="proveedores.html" onclick="cargarPagina('proveedores')">Proveedores</a>
+                                <a id="materiales" class="nav-link" href="materiales.html" onclick="cargarPagina('materiales')">Materiales</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="small">Iniciado por:</div>
+                    <div id="nomUsuario"></div>
+                    <div class="small">Rol:</div>
+                    <div id="rol"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main id="contenidoAsignacionMateriales">
+                <div class="container-fluid px-4">
+
+                    <div class="row mb-4 mt-4">
+                        <div class="col-md-12 d-flex justify-content-between align-items-center">
+                            <h2 class="mb-4"><i class="bi bi-tools me-2"></i>Asignación de Materiales a Obra</h2>
+                        </div>
+                    </div>
+
+                    <form id="formAsignacionMateriales">
+                        <!-- Fila para la fecha -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="border rounded p-3 shadow-sm">
+                                    <label for="fechaAsignacion" class="form-label">Fecha de Asignación</label>
+                                    <input type="date" id="fechaAsignacion" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fila para cuadros izquierdo y derecho -->
+                        <div class="row g-4">
+
+                            <!-- Cuadro izquierdo -->
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 shadow-sm">
+
+                                    <!-- Obra -->
+                                    <label for="obra" class="form-label">Obra</label>
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id="idObra">
+                                        <input type="text" id="obra" class="form-control" placeholder="Buscar obra" readonly>
+                                        <button id="btnBuscarObra" class="btn btn-outline-secondary" type="button">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Material -->
+                                    <label for="material" class="form-label">Material</label>
+                                    <div class="input-group mb-3">
+                                        <input type="hidden" id="idMaterial">
+                                        <input type="text" id="material" class="form-control" placeholder="Buscar material" readonly>
+                                        <button id="btnBuscarCodigo" class="btn btn-outline-secondary" type="button">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+
+                                    <!-- Precio Unitario -->
+                                    <label for="precioUnitario" class="form-label">Precio Unitario</label>
+                                    <input type="text" id="precioUnitario" class="form-control mb-3" readonly>
+
+                                </div>
+                            </div>
+
+                            <!-- Cuadro derecho -->
+                            <div class="col-md-6">
+                                <div class="border rounded p-3 shadow-sm">
+                                    <!-- Stock Disponible -->
+                                    <label for="stock" class="form-label">Stock Disponible</label>
+                                    <input type="text" id="stock" class="form-control mb-3" readonly>
+
+                                    <!-- Cantidad -->
+                                    <label for="cantidad" class="form-label">Cantidad</label>
+                                    <input type="number" id="cantidad" class="form-control w-100 text-end" min="1">
+                                    <small class="text-secondary"><span class="text-danger">*</span> Asignaciones mayores al stock estan sujetas tiempo de espera por reabastecimiento.</small>
+
+                                    <p style="visibility: hidden;" class="mb-3"></p>
+
+                                    <button id="btnAgregarMaterial" type="button" form="formAsignacionMateriales" class="btn btn-success w-100 mt-4">
+                                        <i class="bi bi-building-add" width="64px"></i>
+                                        Agregar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Observaciones (footer) -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="border rounded p-3 shadow-sm">
+                                    <label for="observaciones" class="form-label">Observaciones</label>
+                                    <textarea id="observaciones" class="form-control" rows="3" placeholder="Escriba aquí..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Tabla de materiales asignados -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title mb-3"><i class="bi bi-clipboard-check me-2"></i>Materiales Asignados</h5>
+                            <table id="tablaMaterialesAsignados" class="table table-striped table-hover table-bordered w-100">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Número</th>
+                                        <th>Material</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>  
+                    
+                    <div class="card mt-4 mb-4">
+                        <div class="input-group p-3 d-flex justify-content-center">
+                            <button id="btnGuardarMaterialesAsignados" type="button" class="btn btn-primary p-2">
+                                <i class="bi bi-floppy"></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; 2A Constructora 2025</div>
+                        <div>
+                            <a href="#">Política de Privacidad</a>
+                            &middot;
+                            <a href="#">Términos &amp; Condiciones</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Artículos -->
+    <div class="modal fade" id="modalArticulos" tabindex="-1" aria-labelledby="modalArticulosLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalArticulosLabel">Búsqueda de Artículos</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="filtroCodigo" class="form-label">Filtrar por Código:</label>
+                            <input type="text" id="filtroCodigo" class="form-control" placeholder="Ingrese código de barra">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filtroDescripcion" class="form-label">Filtrar por Descripción:</label>
+                            <input type="text" id="filtroDescripcion" class="form-control" placeholder="Ingrese descripción">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button id="btnFiltrarArticulos" class="btn btn-primary me-2">
+                                <i class="bi bi-filter me-1"></i> Filtrar
+                            </button>
+                            <button id="btnLimpiarFiltrosArticulos" class="btn btn-secondary">
+                                <i class="bi bi-x-circle me-1"></i> Limpiar Filtros
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table id="tablaArticulosBusqueda" class="display table table-striped table-hover w-100">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th>Unidad</th>
+                                    <th>IVA</th>
+                                    <th>Stock</th>
+                                    <th>Precio</th>
+                                    <th>Acción</th>
+                                    <th>ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos se cargarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Búsqueda de Obras -->
+    <div class="modal fade" id="modalObras" tabindex="-1" aria-labelledby="modalObrasLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalObrasLabel">Búsqueda de Obras</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="filtroCodigoObra" class="form-label">Filtrar por Código de Obra:</label>
+                            <input type="text" id="filtroCodigoObra" class="form-control" placeholder="Ingrese código de obra">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="filtroNombreObra" class="form-label">Filtrar por Nombre de Obra:</label>
+                            <input type="text" id="filtroNombreObra" class="form-control" placeholder="Ingrese nombre de obra">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col d-flex justify-content-end">
+                            <button id="btnFiltrarObras" class="btn btn-primary me-2">
+                                <i class="bi bi-filter me-1"></i> Filtrar
+                            </button>
+                            <button id="btnLimpiarFiltrosObras" class="btn btn-secondary">
+                                <i class="bi bi-x-circle me-1"></i> Limpiar Filtros
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table id="tablaObras" class="display table table-striped table-hover w-100">
+                            <thead>
+                                <tr>
+                                    <!-- <th>ID</th> -->
+                                    <th>Código</th>
+                                    <th>Nombre de Obra</th>
+                                    <th>Dirección</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
+                                    <th>Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos se cargarán dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="js/roleMenuAccess.js"></script>
+    <script src="js/funcionesSistema.js"></script>
+    <script src="menu/scripts.js"></script>
+    <script src="js/cerrarSesion.js"></script>
+    <!-- Bootstrap -->
+    <script src="menu/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="dt/jquery-3.7.1.js"></script>
+    <script src="dt/datatables.min.js"></script>
+    <script src="dt/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons Extension -->
+    <script src="dt/dataTables.buttons.min.js"></script>
+    <script src="dt/buttons.print.min.js"></script>
+    <script src="dt/buttons.html5.min.js"></script>
+    <!-- DataTables JSZip y pdfmake para exportar -->
+    <script src="dt/jszip.min.js"></script>
+    <script src="dt/pdfmake.min.js"></script>
+    <script src="dt/vfs_fonts.js"></script>
+    <!-- DataTables Idioma Español -->
+    <script src="dt/es-ES.js"></script>
+    
+    <script>
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+        if(!currentUser) {
+            window.location.href = 'error.html';
+        }
+
+        // Control de seguridad del usuario actual
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si el usuario está autenticado
+            if (!currentUser) {
+                alertify.error("Usuario no encontrado.");
+                setTimeout(() => {
+                    window.location.href = "error.html";
+                }, 2000);
+                return;
+            } else {
+                // Mostrar el nombre del usuario y rol en el menú
+                document.getElementById('nomUsuario').innerText =  `${currentUser.nombre} ${currentUser.apellido}`;
+                document.getElementById("rol").textContent = formatearRol(currentUser.rol);
+            }
+            
+            // Configurar tema oscuro
+            configurarTemaOscuro();
+
+            // Inicializar la fecha con la fecha actual
+            document.getElementById('fechaAsignacion').valueAsDate = new Date();
+
+            cargarMaterialesModal();
+
+            // Evento para buscar artículo por código (abrir modal)
+            document.getElementById('btnBuscarCodigo').addEventListener('click', abrirModalArticulos);
+
+            // Evento para buscar obras
+            document.getElementById('btnBuscarObra').addEventListener('click', abrirModalObras);
+
+            // Evento para seleccionar artículo
+            $('#tablaArticulosBusqueda tbody').on('click', '.seleccionar-articulo', function () {
+                const fila = $(this).closest('tr');
+                const tablaArticulos = $('#tablaArticulosBusqueda').DataTable();
+                const data = tablaArticulos.row(fila).data();
+                seleccionarArticulo(data[1], data[5].replace(/\./g, ''), data[7], data[4]);
+            });
+
+            // Eventos para el modal de artículos
+            document.getElementById('btnFiltrarArticulos').addEventListener('click', filtrarArticulos);
+            document.getElementById('btnLimpiarFiltrosArticulos').addEventListener('click', limpiarFiltrosArticulos);
+
+            cargarObrasModal();
+
+            // Evento para seleccionar obras
+            $('#tablaObras tbody').on('click', '.seleccionar-obra', function () {
+                const fila = $(this).closest('tr');
+                const tablaObras = $('#tablaObras').DataTable();
+                const data = tablaObras.row(fila).data();
+                seleccionarObra(data[0], data[1]); // ID, Nombre
+            });
+
+            // Evento para buscar obra
+            document.getElementById('btnBuscarObra').addEventListener('click', abrirModalObras);
+
+            // Eventos para el modal de obras
+            document.getElementById('btnFiltrarObras').addEventListener('click', filtrarObras);
+            document.getElementById('btnLimpiarFiltrosObras').addEventListener('click', limpiarFiltrosObras);
+
+            // Eventos para agregar material
+            document.getElementById('btnAgregarMaterial').addEventListener('click', agregarMaterial);
+
+            // Evento delegado para quitar filas
+            $('#tablaMaterialesAsignados tbody').on('click', '.quitar-fila', function () {
+                const tabla = $('#tablaMaterialesAsignados').DataTable();
+                tabla.row($(this).parents('tr')).remove().draw();
+                // actualizarNumerosItem();
+                alertify.success('Material eliminado correctamente');
+            });
+
+            document.getElementById('btnGuardarMaterialesAsignados').addEventListener('click', guardarMaterialesAsignados);
+        });
+
+        // Función para dark mode
+        function configurarTemaOscuro() {
+            // Verificar preferencia inicial
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+            }
+
+            // Toggle modo oscuro
+            document.getElementById('darkModeToggle').addEventListener('click', function() {
+                const html = document.documentElement;
+                html.classList.toggle('dark');
+                this.innerHTML = html.classList.contains('dark') ? 
+                    '<i class="bi bi-sun"></i>' : 
+                    '<i class="bi bi-moon-stars"></i>';
+            });
+
+            // Escuchar cambios en preferencias del sistema
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                const html = document.documentElement;
+                if (e.matches) {
+                    html.classList.add('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-sun"></i>';
+                } else {
+                    html.classList.remove('dark');
+                    document.getElementById('darkModeToggle').innerHTML = '<i class="bi bi-moon-stars"></i>';
+                }
+            });
+        }
+
+        // Formatear el nombre del rol para mostrar
+        function formatearRol(rol) {
+            switch(rol) {
+                case 'administrador': return 'Administrador';
+                case 'jefe_obra': return 'Jefe de Obra';
+                case 'gerente': return 'Gerente';
+                case 'obrero': return 'Obrero';
+                case 'contador': return 'Contador/Financiero';
+                case 'codificador': return 'Codificador';
+                default: return rol;
+            }
+        }
+
+        // Abrir modal de artículos
+        function abrirModalArticulos() {
+            // Mostrar modal
+            const modalArticulos = new bootstrap.Modal(document.getElementById('modalArticulos'));
+            modalArticulos.show();
+        }
+
+        // Filtrar artículos según los criterios ingresados
+        function filtrarArticulos() {
+            const filtroCodigo = document.getElementById('filtroCodigo').value.trim().toLowerCase();
+            const filtroDescripcion = document.getElementById('filtroDescripcion').value.trim().toLowerCase();
+            
+            const tabla = $('#tablaArticulosBusqueda').DataTable();
+            
+            // Resetear búsqueda previa
+            tabla.search('').columns().search('').draw();
+            
+            // Aplicar filtros si hay alguno
+            if (filtroCodigo || filtroDescripcion) {
+                if (filtroCodigo) {
+                    tabla.column(0).search(filtroCodigo).draw();
+                }
+                
+                if (filtroDescripcion) {
+                    tabla.column(1).search(filtroDescripcion).draw();
+                }
+                
+                // Informar resultados
+                const numResultados = tabla.page.info().recordsDisplay;
+                if (numResultados === 0) {
+                    alertify.warning('No se encontraron artículos con los criterios especificados');
+                } else if (numResultados === 1) {
+                    alertify.success('Se encontró 1 artículo');
+                } else {
+                    alertify.success(`Se encontraron ${numResultados} artículos`);
+                }
+            } else {
+                alertify.warning('Ingrese al menos un criterio de búsqueda');
+            }
+        }
+
+        // Seleccionar un artículo del modal
+        function seleccionarArticulo(descripcion, precio, id, stock) {
+            document.getElementById('material').value = descripcion;
+            document.getElementById('idMaterial').value = id;
+            document.getElementById('precioUnitario').value = precio;
+            document.getElementById('stock').value = stock;
+            
+            // Cerrar modal
+            const modalArticulos = bootstrap.Modal.getInstance(document.getElementById('modalArticulos'));
+            modalArticulos.hide();
+            
+            // Notificar
+            alertify.success('Artículo seleccionado correctamente');
+        }
+
+        function cargarMaterialesModal() {
+            try {
+                // Obtener materiales
+                let materiales = [];
+                if (typeof obtenerMateriales === 'function') {
+                    materiales = obtenerMateriales();
+                } else {
+                    materiales = JSON.parse(localStorage.getItem("materiales")) || [];
+                }
+                
+                const tablaArticulos = $('#tablaArticulosBusqueda').DataTable();
+                tablaArticulos.column(7).visible(false);
+                tablaArticulos.clear();
+                
+                // Si no hay materiales, mostrar mensaje
+                if (materiales.length === 0) {
+                    alertify.warning("No hay materiales registrados en el sistema");
+                    return;
+                }
+                
+                // Agregar materiales a la tabla
+                materiales.forEach(articulo => {
+                    const btnSeleccionar = '<button class="btn btn-primary btn-sm btn-tabla seleccionar-articulo">Seleccionar</button>';
+                    
+                    tablaArticulos.row.add([
+                        articulo.codbarra || '',
+                        articulo.descripcion || '',
+                        articulo.unidad || '',
+                        '10%', // IVA por defecto
+                        articulo.stock || '0',
+                        formatoNumero(articulo.precio) || '0',
+                        btnSeleccionar,
+                        articulo.idMaterial || ''
+                    ]).draw(false);
+                });
+            } catch (error) {
+                alertify.error("Error al cargar materiales: " + error.message);
+                console.error("Error completo:", error);
+            }
+        }
+
+        // Formatear número sin símbolo de moneda
+        function formatoNumero(numero) {
+            return new Intl.NumberFormat('es-PY', {
+                maximumFractionDigits: 0
+            }).format(numero);
+        }
+
+        function limpiarFiltrosArticulos() {
+            document.getElementById('filtroCodigo').value = '';
+            document.getElementById('filtroDescripcion').value = '';
+            
+            // Restaurar tabla completa
+            const tabla = $('#tablaArticulosBusqueda').DataTable();
+            tabla.search('').columns().search('').draw();
+        }
+
+        // Abrir modal de obras
+        function abrirModalObras() {
+            // // Limpiar filtros previos
+            // limpiarFiltrosClientes();
+            
+            // // Si hay un RUC ingresado, usarlo como filtro inicial
+            // const nombre = document.getElementById('clienteObra').value.trim();
+            // if (nombre) {
+            //     document.getElementById('filtroNombre').value = nombre;
+            //     filtrarClientes();
+            // }
+            
+            // Mostrar modal
+            const modalObras = new bootstrap.Modal(document.getElementById('modalObras'));
+            modalObras.show();
+        }
+
+        // Filtrar obras según los criterios ingresados
+        function filtrarObras() {
+            const filtroCodigo = document.getElementById('filtroCodigoObra').value.trim().toLowerCase();
+            const filtroNombre = document.getElementById('filtroNombreObra').value.trim().toLowerCase();
+            
+            const tabla = $('#tablaObras').DataTable();
+            
+            // Resetear búsqueda previa
+            tabla.search('').columns().search('').draw();
+            
+            // Aplicar filtros si hay alguno
+            if (filtroCodigo || filtroNombre) {
+                if (filtroCodigo) {
+                    tabla.column(0).search(filtroCodigo).draw();
+                }
+                
+                if (filtroNombre) {
+                    tabla.column(1).search(filtroNombre).draw();
+                }
+                
+                // Informar resultados
+                const numResultados = tabla.page.info().recordsDisplay;
+                if (numResultados === 0) {
+                    alertify.warning('No se encontraron clientes con los criterios especificados');
+                } else if (numResultados === 1) {
+                    alertify.success('Se encontró 1 cliente');
+                } else {
+                    alertify.success(`Se encontraron ${numResultados} clientes`);
+                }
+            } else {
+                alertify.warning('Ingrese al menos un criterio de búsqueda');
+            }
+        }
+
+       function cargarObrasModal() {
+            try {
+                // Obtener obras
+                let obras = [];
+                if (typeof obtenerObras === 'function') {
+                    obras = obtenerObras();
+                } else {
+                    obras = JSON.parse(localStorage.getItem("obras")) || [];
+                }
+                
+                const tablaObras = $('#tablaObras').DataTable();
+                tablaObras.clear();
+                tablaObras.column(0).visible(false);
+
+                // Si no hay obras, mostrar mensaje
+                if (obras.length === 0) {
+                    alertify.warning("No hay obras registradas en el sistema");
+                    return;
+                }
+
+                // Agregar obras a la tabla
+                obras.forEach(obra => {
+                    const btnSeleccionar = '<button class="btn btn-primary btn-sm btn-tabla seleccionar-obra">Seleccionar</button>';
+                    
+                    tablaObras.row.add([
+                        obra.idObra || '',
+                        obra.nombre || '',
+                        obra.direccion || '',
+                        obra.fechaInicio || '',
+                        obra.fechaFin|| 'Pendiente',
+                        btnSeleccionar,
+                    ]).draw(false);
+                });
+            } catch (error) {
+                alertify.error("Error al cargar obras: " + error.message);
+                console.error("Error completo:", error);
+            }
+        }
+
+        // Seleccionar una obra del modal
+        function seleccionarObra(id, nombre) {
+            document.getElementById('idObra').value = id;
+            document.getElementById('obra').value = nombre;
+            
+            // Cerrar modal
+            const modalObra = bootstrap.Modal.getInstance(document.getElementById('modalObras'));
+            modalObra.hide();
+            
+            // Notificar
+            alertify.success('Obra seleccionada correctamente');
+        }
+
+        // Limpiar filtros de obras
+        function limpiarFiltrosObras() {
+            document.getElementById('filtroCodigoObra').value = '';
+            document.getElementById('filtroNombreObra').value = '';
+            
+            // Restaurar tabla completa
+            const tabla = $('#tablaObras').DataTable();
+            tabla.search('').columns().search('').draw();
+        }
+
+        // Agregar materiales a la tabla
+        function agregarMaterial() {
+            const idMaterial = document.getElementById('idMaterial').value;
+            const nombreMaterial = document.getElementById('material').value.trim();
+            const cantidad = document.getElementById('cantidad').value.trim();
+            const subtotal = cantidad * document.getElementById('precioUnitario').value.trim();
+            
+            // Validar que todos los campos estén completos
+            if (!idMaterial || !cantidad || !nombreMaterial) {
+                alertify.error('Debe completar todos los datos del artículo');
+                return;
+            }
+            
+            // Verificar que el material no esté ya en la tabla
+            const tabla = $('#tablaMaterialesAsignados').DataTable();
+            let materialExistente = false;
+            tabla.column(0).visible(false);
+
+            const numeroItem = tabla.rows().count() + 1;
+            
+            tabla.rows().every(function() {
+                const data = this.data();
+                if (data[0] === idMaterial) { // Comparar con Id Articulo (columna oculta)
+                    materialExistente = true;
+                    return false; // Salir del bucle
+                }
+            });
+            
+            if (materialExistente) {
+                alertify.error('Este material ya está en la lista');
+                return;
+            }
+            
+            // Crear botón de eliminar
+            const btnEliminar = '<button class="btn btn-danger btn-sm quitar-fila" title="Eliminar material"><i class="bi bi-trash"></i></button>';
+            
+            // Agregar fila a la tabla
+            tabla.row.add([
+                idMaterial,
+                numeroItem,
+                nombreMaterial,
+                cantidad,
+                subtotal,
+                btnEliminar
+            ]).draw();
+            
+            // Limpiar campos de artículo
+            // document.getElementById('codbarra').value = '';
+            // document.getElementById('descripcion').value = '';
+            // document.getElementById('cantidad').value = '1';
+            // document.getElementById('preuni').value = '';
+            // document.getElementById('subtotal').value = '';
+            // document.getElementById('ivaHidden').value = '';
+            // document.getElementById('idarticulo').value = '';
+
+            alertify.success('Material agregado correctamente');
+        }
+
+        function guardarMaterialesAsignados() {
+            const tabla = $('#tablaMaterialesAsignados').DataTable();
+
+            // Verificar que haya al menos un material asignado.
+            if(tabla.rows().count() === 0) {
+                alertify.error('Debe asignar al menos un material para guardar.');
+                return;
+            }
+
+            // Recopilar datos para la cabecera de materiales asignados.
+            const idAsignacion = generarIdAsignacion();
+            const idObra = document.getElementById('idObra').value;
+            const fechaAsignacion = document.getElementById('fechaAsignacion').value;
+            let totalAsignacion = 0;
+            const usuario = currentUser.idUsuario;
+            const observaciones = document.getElementById('observaciones').value.trim();
+
+            // Recopilar datos para el detalle de la cabecera.
+            const detalle = [];
+
+            tabla.rows().every(function(index) {
+                const data = this.data();
+
+                const idMaterial = data[0];
+                const numeroItem = data[1];
+                const cantidad = data[3];
+                const subtotal = data[4];
+
+                totalAsignacion += subtotal;
+
+                detalle.push(
+                    {
+                        idDetalle: numeroItem,
+                        idAsignacion: idAsignacion,
+                        idMaterial: idMaterial,
+                        cantidad: cantidad,
+                        subtotal: subtotal
+                    }
+                );
+            });
+
+            // Crear objeto de cabecera.
+            const cabecera = {
+                idAsignacion: idAsignacion,
+                idObra: idObra,
+                fechaAsignacion: fechaAsignacion,
+                totalPresupuesto: totalAsignacion,
+                usuario: usuario,
+                observaciones: observaciones || ''
+            }
+
+            // Obtener datos existentes
+            let asignacionMaterialCabecera = JSON.parse(localStorage.getItem("asignacionMaterialCabecera")) || [];
+            let asignacionMaterialDetalle = JSON.parse(localStorage.getItem("asignacionMaterialDetalle")) || [];
+
+            asignacionMaterialCabecera.push(cabecera);
+            asignacionMaterialDetalle.push(...detalle);
+
+            // Guardar en localStorage
+            localStorage.setItem("asignacionMaterialCabecera", JSON.stringify(asignacionMaterialCabecera));
+            localStorage.setItem("asignacionMaterialDetalle", JSON.stringify(asignacionMaterialDetalle));
+
+            // Notificar éxito.
+            alertify.success('Materiales asignados correctamente.');
+
+            // Limpiar campos
+            document.getElementById('obra').value = '';
+            document.getElementById('material').value = '';
+            document.getElementById('precioUnitario').value = '';
+            document.getElementById('stock').value = '';
+            document.getElementById('cantidad').value = '';
+            document.getElementById('observaciones').value = '';
+
+            tabla.clear().draw();
+        }
+
+        function generarIdAsignacion() {
+            const cabecera = JSON.parse(localStorage.getItem('asignacionMaterialCabecera')) || [];
+
+            
+            if (cabecera.length === 0) {
+                return 1; // Si no hay registros, empieza en 1
+            }
+
+            const maxId = Math.max(...cabecera.map(item => item.idAsignacion));
+            return maxId + 1; // Retorna el siguiente ID disponible
+        }
+    </script>  
+</body>
+</html>
